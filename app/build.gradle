@@ -1,0 +1,92 @@
+plugins {
+	id 'dagger.hilt.android.plugin'
+	id 'com.android.application'
+	id 'kotlin-android'
+	id 'kotlin-kapt'
+	id "com.diffplug.spotless" version "5.14.0"
+}
+
+// https://github.com/diffplug/spotless/tree/main/plugin-gradle#kotlin
+spotless {
+	groovy {
+		target "**/*.kt"
+		licenseHeaderFile "$rootDir/spotless.license"
+	}
+	groovyGradle {
+		target '*.gradle'
+		greclipse()
+	}
+}
+
+android {
+	compileSdk build_versions.compileSdk
+	buildToolsVersion sdk_versions.buildToolsVersion
+
+	defaultConfig {
+		applicationId "com.keygenqt.firebasestack"
+
+		targetSdk build_versions.targetSdk
+		minSdk build_versions.minSdk
+		versionCode build_versions.versionCode
+		versionName build_versions.versionName
+
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		vectorDrawables {
+			useSupportLibrary true
+		}
+	}
+
+	// android 12
+	compileSdkVersion "android-S"
+	defaultConfig {  targetSdkVersion "S" }
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+	kotlinOptions {
+		jvmTarget = '1.8'
+		useIR = true
+	}
+	buildFeatures {
+		compose true
+	}
+	composeOptions {
+		kotlinCompilerExtensionVersion versions.compose_version
+		kotlinCompilerVersion '1.5.10'
+	}
+}
+
+dependencies {
+	testImplementation "junit:junit:$versions.junit"
+	androidTestImplementation "androidx.test.ext:junit:$versions.ext_junit"
+	androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso_core"
+	androidTestImplementation "androidx.compose.ui:ui-test-junit4:$versions.compose_version"
+}
+
+dependencies {
+	implementation "androidx.core:core-ktx:$versions.core_ktx"
+	implementation "androidx.appcompat:appcompat:$versions.appcompat"
+	implementation "com.google.android.material:material:$versions.material"
+	implementation "androidx.compose.ui:ui:$versions.compose_version"
+	implementation "androidx.compose.material:material:$versions.compose_version"
+	implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
+	implementation "androidx.activity:activity-compose:$versions.activity_compose"
+	// other
+	implementation "com.jakewharton.timber:timber:$versions.timber"
+	implementation "androidx.startup:startup-runtime:$versions.startup_runtime"
+	// hilt
+	kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler"
+	implementation "com.google.dagger:hilt-android:$versions.hilt_dagger"
+	kapt "com.google.dagger:hilt-compiler:$versions.hilt_dagger"
+	// room
+	implementation "androidx.room:room-runtime:$versions.room"
+	implementation "androidx.room:room-ktx:$versions.room"
+	kapt "androidx.room:room-compiler:$versions.room"
+}
