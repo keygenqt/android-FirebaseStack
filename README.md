@@ -7,8 +7,8 @@ The demo application making the most of Firebase
 ### Architecture
 * [Guide to app architecture](https://developer.android.com/jetpack/guide) - MVVM
 * [Kotlin](https://kotlinlang.org/) - 100%
-* [Jetpack Compose](https://kotlinlang.org/) - 100%
-* [Android 12](https://kotlinlang.org/) - 100%
+* [Jetpack Compose](https://developer.android.com/jetpack/compose)
+* [Android 12](https://developer.android.com/about/versions/12?authuser=1)
 
 ### Firebase Stack
 * [Firebase Authentication](https://firebase.google.com/docs/auth)
