@@ -71,13 +71,10 @@ dependencies {
 }
 
 dependencies {
+	// base
 	implementation "androidx.core:core-ktx:$versions.core_ktx"
 	implementation "androidx.appcompat:appcompat:$versions.appcompat"
 	implementation "com.google.android.material:material:$versions.material"
-	implementation "androidx.compose.ui:ui:$versions.compose_version"
-	implementation "androidx.compose.material:material:$versions.compose_version"
-	implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
-	implementation "androidx.activity:activity-compose:$versions.activity_compose"
 	// other
 	implementation "com.jakewharton.timber:timber:$versions.timber"
 	implementation "androidx.startup:startup-runtime:$versions.startup_runtime"
@@ -85,8 +82,15 @@ dependencies {
 	kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler"
 	implementation "com.google.dagger:hilt-android:$versions.hilt_dagger"
 	kapt "com.google.dagger:hilt-compiler:$versions.hilt_dagger"
-	// room
-	implementation "androidx.room:room-runtime:$versions.room"
-	implementation "androidx.room:room-ktx:$versions.room"
-	kapt "androidx.room:room-compiler:$versions.room"
+	implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_navigation_compose"
+	// accompanist
+	implementation "com.google.accompanist:accompanist-insets:$versions.accompanist"
+	implementation "com.google.accompanist:accompanist-glide:$versions.accompanist"
+	// compose
+	implementation "androidx.constraintlayout:constraintlayout-compose:$versions.constraint"
+	implementation "androidx.compose.material:material-icons-extended:$versions.compose_version"
+	implementation "androidx.compose.ui:ui:$versions.compose_version"
+	implementation "androidx.compose.material:material:$versions.compose_version"
+	implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
+	implementation "androidx.activity:activity-compose:$versions.activity_compose"
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.other
 
 import android.os.Bundle
@@ -23,15 +23,21 @@ import android.view.View
 import android.view.ViewTreeObserver.OnPreDrawListener
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.keygenqt.firebasestack.base.LocalBaseViewModel
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class ActivityMain : ComponentActivity() {
+
+    private val viewModel: ViewModelMain by viewModels()
+
+    private lateinit var navController: NavHostController
 
     private val isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -39,9 +45,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Jetpack compose
         setContent {
-            FirebaseStackTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+            navController = rememberNavController()
+            CompositionLocalProvider(LocalBaseViewModel provides viewModel) {
+                FirebaseStackTheme {
+                    NavGraphMain(navController)
                 }
             }
         }
@@ -66,17 +73,11 @@ class MainActivity : ComponentActivity() {
             }, 1000)
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FirebaseStackTheme {
-        Greeting("Android")
+    override fun onBackPressed() {
+        when (navController.currentDestination?.route) {
+            NavScreen.Home.route -> if (viewModel.isShowSnackBar()) finishAffinity() else viewModel.toggleSnackBar()
+            else -> super.onBackPressed()
+        }
     }
 }
