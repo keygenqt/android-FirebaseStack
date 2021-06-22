@@ -17,50 +17,19 @@
 package com.keygenqt.firebasestack.ui.other
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Snackbar
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import com.keygenqt.firebasestack.base.LocalBaseViewModel
-import com.keygenqt.firebasestack.ui.common.FirstPage
-import com.keygenqt.firebasestack.ui.home.ViewModelHome
+import com.keygenqt.firebasestack.ui.base.Actions
 
 @Composable
 fun StartApp(
-    actions: ActionsMain,
-    viewModel: ViewModelHome
+    actions: Actions,
 ) {
-    val showSnackBar: Boolean by LocalBaseViewModel.current.showSnackBar.collectAsState()
-
-    ConstraintLayout(
-        modifier = Modifier.padding(8.dp)
-    ) {
-        val (page) = createRefs()
+    Row {
         Column(modifier = Modifier.fillMaxSize()) {
-            FirstPage()
+            Welcome(navigateToLogin = actions.navigateToLogin)
         }
-        Column(modifier = Modifier
-            .constrainAs(page) {
-                bottom.linkTo(parent.bottom)
-            }) {
-            if (showSnackBar) {
-                SnackbarInfo()
-            }
-        }
-    }
-}
-
-@Composable
-fun SnackbarInfo(
-    modifier: Modifier = Modifier
-) {
-    Column {
-        Snackbar(modifier = modifier.padding(8.dp)) { Text(text = "Please click back again to exit") }
     }
 }

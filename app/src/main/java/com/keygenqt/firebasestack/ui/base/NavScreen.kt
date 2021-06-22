@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.home
+package com.keygenqt.firebasestack.ui.base
 
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-
-@HiltViewModel
-class ViewModelHome @Inject constructor() : ViewModel()
+sealed class NavScreen(val route: String) {
+    object Welcome : NavScreen("Welcome")
+    object Login : NavScreen("Login")
+    object ChatList : NavScreen("ChatList")
+    object ChatView : NavScreen("ChatView") {
+        const val routeWithArgument: String = "ChatView/{chatId}"
+        const val argument0: String = "chatId"
+    }
+}

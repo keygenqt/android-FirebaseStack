@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.other
+package com.keygenqt.firebasestack.ui.base
 
 import android.os.Bundle
 import android.os.Handler
@@ -33,9 +33,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
-class ActivityMain : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
-    private val viewModel: ViewModelMain by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var navController: NavHostController
 
@@ -48,7 +48,7 @@ class ActivityMain : ComponentActivity() {
             navController = rememberNavController()
             CompositionLocalProvider(LocalBaseViewModel provides viewModel) {
                 FirebaseStackTheme {
-                    NavGraphMain(navController)
+                    NavGraph(navController)
                 }
             }
         }
@@ -71,13 +71,6 @@ class ActivityMain : ComponentActivity() {
             Handler(Looper.getMainLooper()).postDelayed({
                 isReady.value = true
             }, 1000)
-        }
-    }
-
-    override fun onBackPressed() {
-        when (navController.currentDestination?.route) {
-            NavScreen.Home.route -> if (viewModel.isShowSnackBar()) finishAffinity() else viewModel.toggleSnackBar()
-            else -> super.onBackPressed()
         }
     }
 }

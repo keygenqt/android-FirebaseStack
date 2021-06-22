@@ -14,17 +14,16 @@ The demo application making the most of Firebase
 * [Firebase Authentication](https://firebase.google.com/docs/auth)
 * [Firebase Realtime Database](https://firebase.google.com/docs/database)
 * [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
-* [Cloud Functions for Firebase](https://firebase.google.com/docs/functions)
 * [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)
 * [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
-* [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
-* [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
 * [Google Analytics](https://firebase.google.com/docs/analytics)
 * [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
-* [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 * [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
 * [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
 * [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
+* [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
+* [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
+* [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 
 # License
 

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Firebase Stack</string>
+
+    <!-- Welcome-->
+    <string name="welcome_title">Welcome!</string>
+    <string name="welcome_btn_login">Login</string>
+
+    <!-- Login-->
+    <string name="login_title">Login</string>
+
+    <!-- Chat List-->
+    <string name="chat_list_title">Chat List</string>
+
+    <!-- Common-->
+    <string name="cd_navigate_up">Navigate up</string>
 </resources>

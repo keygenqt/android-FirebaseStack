@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.other
+package com.keygenqt.firebasestack.ui.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.keygenqt.firebasestack.ui.other.ChatList
+import com.keygenqt.firebasestack.ui.other.Login
+import com.keygenqt.firebasestack.ui.other.StartApp
 
 @Composable
-fun NavGraphMain(
-    navController: NavHostController
-) {
+fun NavGraph(navController: NavHostController) {
     val actions = remember(navController) {
-        ActionsMain(navController)
+        Actions(navController)
     }
     ProvideWindowInsets {
-        NavHost(navController = navController, startDestination = NavScreen.Home.route) {
-            composable(NavScreen.Home.route) {
-                StartApp(actions = actions, viewModel = hiltViewModel())
+        NavHost(navController = navController, startDestination = NavScreen.Welcome.route) {
+            composable(NavScreen.Welcome.route) {
+                StartApp(actions = actions)
+            }
+            composable(NavScreen.Login.route) {
+                Login(actions.upPress, actions.navigateToChatList)
+            }
+            composable(NavScreen.ChatList.route) {
+                ChatList()
             }
         }
     }

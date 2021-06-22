@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.other
+package com.keygenqt.firebasestack.ui.base
 
 import android.os.Handler
 import android.os.Looper
@@ -25,14 +25,13 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelMain @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
 
     private val _showSnackBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val showSnackBar: StateFlow<Boolean> get() = _showSnackBar
 
-    fun isShowSnackBar(): Boolean {
-        return _showSnackBar.value
-    }
+    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLogin: StateFlow<Boolean> get() = _isLogin
 
     fun toggleSnackBar() {
         _showSnackBar.tryEmit(true)

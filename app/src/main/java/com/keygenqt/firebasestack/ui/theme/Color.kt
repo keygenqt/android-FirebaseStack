@@ -17,6 +17,10 @@
 package com.keygenqt.firebasestack.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import com.keygenqt.firebasestack.extension.parseColor
+
+// custom
+val BlackLight = "#232426".parseColor()
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)

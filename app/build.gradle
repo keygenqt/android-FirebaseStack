@@ -3,7 +3,9 @@ plugins {
 	id 'com.android.application'
 	id 'kotlin-android'
 	id 'kotlin-kapt'
-	id "com.diffplug.spotless" version "5.14.0"
+	id 'com.diffplug.spotless' version '5.14.0'
+	id 'com.google.firebase.crashlytics'
+	id 'com.google.gms.google-services'
 }
 
 // https://github.com/diffplug/spotless/tree/main/plugin-gradle#kotlin
@@ -93,4 +95,105 @@ dependencies {
 	implementation "androidx.compose.material:material:$versions.compose_version"
 	implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
 	implementation "androidx.activity:activity-compose:$versions.activity_compose"
+}
+
+// https://firebase.google.com/docs/android/learn-more#bom
+dependencies {
+	// Import the BoM for the Firebase platform
+	implementation platform('com.google.firebase:firebase-bom:28.1.0')
+}
+
+// Authentication
+// https://firebase.google.com/docs/auth/android/firebaseui
+// 10k/month
+dependencies {
+	// Declare the dependency for the Firebase Authentication library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-auth'
+}
+
+// Realtime Database
+// https://firebase.google.com/docs/database/android/start
+// Simultaneous connections - 100
+// GB stored - 1 GB
+// GB downloaded - 10 GB/month
+dependencies {
+	// Declare the dependency for the Realtime Database library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-database'
+}
+
+// Cloud Storage
+// https://firebase.google.com/docs/storage/android/start
+// GB stored - 5 GB
+// GB downloaded - 1 GB/day
+// Upload operations - 20K/day
+// Download operations - 50K/day
+dependencies {
+	// Declare the dependency for the Cloud Storage library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-storage'
+}
+
+// Crashlytics
+// https://firebase.google.com/docs/crashlytics/get-started?platform=android
+// Free
+dependencies {
+	// Declare the dependencies for the Crashlytics and Analytics libraries
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-crashlytics'
+}
+
+// Performance Monitoring
+// https://firebase.google.com/docs/perf-mon/get-started-android
+// Free
+dependencies {
+	// Declare the dependency for the Performance Monitoring library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-perf'
+}
+
+// Analytics
+// https://firebase.google.com/docs/analytics/get-started?platform=android
+// Free
+dependencies {
+	// Declare the dependency for the Analytics library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-analytics'
+}
+
+// Remote Config
+// https://firebase.google.com/docs/remote-config/get-started?platform=android
+// Free
+dependencies {
+	// Declare the dependencies for the Remote Config and Analytics libraries
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-config'
+}
+
+// Cloud Messaging (FCM)
+// https://firebase.google.com/docs/cloud-messaging/android/client
+// Free
+dependencies {
+	// Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-messaging'
+}
+
+// In-App Messaging
+// https://firebase.google.com/docs/in-app-messaging/get-started?platform=android
+// Free
+dependencies {
+	// Declare the dependencies for the In-App Messaging and Analytics libraries
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-inappmessaging-display'
+}
+
+// Dynamic Links
+// https://firebase.google.com/docs/dynamic-links/android/create#set-up-firebase-and-the-dynamic-links-sdk
+// Free
+dependencies {
+	// Declare the dependencies for the Dynamic Links and Analytics libraries
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-dynamic-links'
 }

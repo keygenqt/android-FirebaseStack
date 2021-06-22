@@ -14,12 +14,10 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.other
+package com.keygenqt.firebasestack.extension
 
-import androidx.navigation.NavHostController
+import androidx.compose.ui.graphics.Color
 
-class ActionsMain(navController: NavHostController) {
-    val upPress: () -> Unit = {
-        navController.navigateUp()
-    }
+fun String.parseColor(): Color {
+    return Color(android.graphics.Color.parseColor(this))
 }

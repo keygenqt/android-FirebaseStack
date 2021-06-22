@@ -17,6 +17,6 @@
 package com.keygenqt.firebasestack.base
 
 import androidx.compose.runtime.staticCompositionLocalOf
-import com.keygenqt.firebasestack.ui.other.ViewModelMain
+import com.keygenqt.firebasestack.ui.base.MainViewModel
 
-val LocalBaseViewModel = staticCompositionLocalOf<ViewModelMain> { error("No MainViewModel found!") }
+val LocalBaseViewModel = staticCompositionLocalOf<MainViewModel> { error("No MainViewModel found!") }
