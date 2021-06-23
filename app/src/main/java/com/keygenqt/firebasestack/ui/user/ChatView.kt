@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.keygenqt.firebasestack.ui.other
+ 
+package com.keygenqt.firebasestack.ui.user
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -25,20 +25,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 
 @Composable
-fun ChatList() {
+fun ChatView(
+    id: Long,
+    upPress: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.chat_list_title),
+                        text = "Chat View",
                         color = LocalContentColor.current
                     )
                 }
@@ -53,7 +54,7 @@ fun ChatList() {
                         .padding(16.dp)
                         .background(MaterialTheme.colors.background)
                 ) {
-                    Text(text = stringResource(id = R.string.chat_list_title))
+                    Text(text = "Chat View")
                 }
             }
         },
@@ -62,7 +63,7 @@ fun ChatList() {
 
 @Preview
 @Composable
-fun ChatListPreviewLight() {
+fun ChatViewPreviewLight() {
     FirebaseStackTheme(darkTheme = false) {
         ChatList()
     }
@@ -70,7 +71,7 @@ fun ChatListPreviewLight() {
 
 @Preview
 @Composable
-fun ChatListPreviewDark() {
+fun ChatViewPreviewDark() {
     FirebaseStackTheme(darkTheme = true) {
         ChatList()
     }

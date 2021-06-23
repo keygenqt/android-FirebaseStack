@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.keygenqt.firebasestack.ui.other
+ 
+package com.keygenqt.firebasestack.ui.guest
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

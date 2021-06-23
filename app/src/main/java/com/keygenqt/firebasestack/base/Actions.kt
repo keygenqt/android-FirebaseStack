@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+package com.keygenqt.firebasestack.base
 
-package com.keygenqt.firebasestack.ui.other
+import androidx.navigation.NavHostController
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.keygenqt.firebasestack.ui.base.Actions
-
-@Composable
-fun StartApp(
-    actions: Actions,
-) {
-    Row {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Welcome(navigateToLogin = actions.navigateToLogin)
-        }
+open class Actions(navController: NavHostController) {
+    val upPress: () -> Unit = {
+        navController.navigateUp()
     }
 }

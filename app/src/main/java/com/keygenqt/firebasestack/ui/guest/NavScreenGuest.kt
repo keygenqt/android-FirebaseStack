@@ -14,9 +14,9 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.base
+package com.keygenqt.firebasestack.ui.guest
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import com.keygenqt.firebasestack.ui.base.ViewModelMain
-
-val LocalBaseViewModel = staticCompositionLocalOf<ViewModelMain> { error("No MainViewModel found!") }
+sealed class NavScreenGuest(val route: String) {
+    object Welcome : NavScreenGuest("Welcome")
+    object Login : NavScreenGuest("Login")
+}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.guest
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,25 +22,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.keygenqt.firebasestack.ui.other.ChatList
-import com.keygenqt.firebasestack.ui.other.Login
-import com.keygenqt.firebasestack.ui.other.StartApp
+import com.keygenqt.firebasestack.base.LocalBaseViewModel
 
 @Composable
-fun NavGraph(navController: NavHostController) {
-    val actions = remember(navController) {
-        Actions(navController)
+fun NavGraphGuest(navController: NavHostController) {
+    val localBaseViewModel = LocalBaseViewModel.current
+    val actionsGuest = remember(navController) {
+        ActionsGuest(navController)
     }
     ProvideWindowInsets {
-        NavHost(navController = navController, startDestination = NavScreen.Welcome.route) {
-            composable(NavScreen.Welcome.route) {
-                StartApp(actions = actions)
+        NavHost(navController = navController, startDestination = NavScreenGuest.Welcome.route) {
+            composable(NavScreenGuest.Welcome.route) {
+                Welcome(navigateToLogin = actionsGuest.navigateToLogin)
             }
-            composable(NavScreen.Login.route) {
-                Login(actions.upPress, actions.navigateToChatList)
-            }
-            composable(NavScreen.ChatList.route) {
-                ChatList()
+            composable(NavScreenGuest.Login.route) {
+                Login(actionsGuest.upPress) {
+                    localBaseViewModel.startUser()
+                }
             }
         }
     }

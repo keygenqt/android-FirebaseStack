@@ -14,9 +14,9 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.base
+package com.keygenqt.firebasestack.ui.user
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import com.keygenqt.firebasestack.ui.base.ViewModelMain
+import androidx.navigation.NavHostController
+import com.keygenqt.firebasestack.base.Actions
 
-val LocalBaseViewModel = staticCompositionLocalOf<ViewModelMain> { error("No MainViewModel found!") }
+class ActionsUser(navController: NavHostController) : Actions(navController)

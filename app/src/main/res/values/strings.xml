@@ -7,10 +7,15 @@
 
     <!-- Login-->
     <string name="login_title">Login</string>
+    <string name="login_subtitle">Social networking service</string>
+    <string name="login_google">Sign In with Google</string>
+    <string name="login_github">Sign In with GitHub</string>
+    <string name="login_facebook">Sign In with Facebook</string>
 
     <!-- Chat List-->
     <string name="chat_list_title">Chat List</string>
 
     <!-- Common-->
-    <string name="cd_navigate_up">Navigate up</string>
+    <string name="common_navigate_up">Navigate up</string>
+    <string name="common_exit">Please click back again to exit</string>
 </resources>

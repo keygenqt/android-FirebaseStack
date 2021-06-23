@@ -17,60 +17,66 @@
 package com.keygenqt.firebasestack.ui.base
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.ViewTreeObserver.OnPreDrawListener
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.ui.guest.NavGraphGuest
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.user.NavGraphUser
+import com.keygenqt.firebasestack.ui.user.NavScreenUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class ActivityMain : ComponentActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: ViewModelMain by viewModels()
 
     private lateinit var navController: NavHostController
 
-    private val isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        // Jetpack compose
+
+        // set graph user/guest
         setContent {
             navController = rememberNavController()
             CompositionLocalProvider(LocalBaseViewModel provides viewModel) {
                 FirebaseStackTheme {
-                    NavGraph(navController)
+                    when (viewModel.isLogin.collectAsState().value) {
+                        true -> NavGraphUser(navController)
+                        false -> NavGraphGuest(navController)
+                    }
                 }
             }
         }
+
         // Splash delay
         window.decorView.findViewById<View>(android.R.id.content)?.let { content ->
-            // Add listener
             content.viewTreeObserver.addOnPreDrawListener(
                 object : OnPreDrawListener {
                     override fun onPreDraw(): Boolean {
-                        return if (isReady.value) {
-                            content.viewTreeObserver.removeOnPreDrawListener(this)
-                            true
-                        } else {
-                            false
-                        }
+                        return if (viewModel.isReady.value) {
+                            content.viewTreeObserver.removeOnPreDrawListener(this); true
+                        } else false
                     }
                 }
             )
-            // Simulate work
-            Handler(Looper.getMainLooper()).postDelayed({
-                isReady.value = true
-            }, 1000)
+        }
+
+    }
+
+    override fun onBackPressed() {
+        when (navController.currentDestination?.route) {
+            // Show snackBar before exit
+            NavScreenUser.ChatList.route -> if (viewModel.isShowSnackBar()) finishAffinity() else viewModel.toggleSnackBar()
+            else -> super.onBackPressed()
         }
     }
 }

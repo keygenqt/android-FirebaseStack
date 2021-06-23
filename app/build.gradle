@@ -80,6 +80,7 @@ dependencies {
 	// other
 	implementation "com.jakewharton.timber:timber:$versions.timber"
 	implementation "androidx.startup:startup-runtime:$versions.startup_runtime"
+	implementation "androidx.security:security-crypto:$versions.security_crypto"
 	// hilt
 	kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler"
 	implementation "com.google.dagger:hilt-android:$versions.hilt_dagger"
@@ -110,6 +111,13 @@ dependencies {
 	// Declare the dependency for the Firebase Authentication library
 	// When using the BoM, you don't specify versions in Firebase library dependencies
 	implementation 'com.google.firebase:firebase-auth'
+
+	// Declare the dependency for the Firebase Authentication library
+	// When using the BoM, you don't specify versions in Firebase library dependencies
+	implementation 'com.google.firebase:firebase-auth-ktx'
+
+	// Also declare the dependency for the Google Play services library and specify its version
+	implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }
 
 // Realtime Database

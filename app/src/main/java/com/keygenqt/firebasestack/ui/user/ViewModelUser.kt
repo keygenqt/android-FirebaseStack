@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package com.keygenqt.firebasestack.base
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import com.keygenqt.firebasestack.ui.base.ViewModelMain
+package com.keygenqt.firebasestack.ui.user
 
-val LocalBaseViewModel = staticCompositionLocalOf<ViewModelMain> { error("No MainViewModel found!") }
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
+
+@HiltViewModel
+@ExperimentalCoroutinesApi
+class ViewModelUser @Inject constructor() : ViewModel() {
+
+}

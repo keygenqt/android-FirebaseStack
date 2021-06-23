@@ -14,9 +14,9 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.base
+package com.keygenqt.firebasestack.extension
 
-import androidx.compose.runtime.staticCompositionLocalOf
-import com.keygenqt.firebasestack.ui.base.ViewModelMain
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 
-val LocalBaseViewModel = staticCompositionLocalOf<ViewModelMain> { error("No MainViewModel found!") }
+fun Modifier.visible(visibility: Boolean): Modifier = this.then(alpha(if (visibility) 1f else 0f))

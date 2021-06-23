@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseStack">
         <activity
-            android:name=".ui.base.MainActivity"
+            android:name=".ui.base.ActivityMain"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.FirebaseStack.NoActionBar"

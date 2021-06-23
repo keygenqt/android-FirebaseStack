@@ -13,30 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package com.keygenqt.firebasestack.ui.base
 
-import android.os.Handler
-import android.os.Looper
+package com.keygenqt.firebasestack.ui.guest
+
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+@ExperimentalCoroutinesApi
+class ViewModelGuest @Inject constructor(
+    private val auth: FirebaseAuth
+) : ViewModel() {
 
-    private val _showSnackBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val showSnackBar: StateFlow<Boolean> get() = _showSnackBar
+    private val _is: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isReady: StateFlow<Boolean> get() = _is
 
-    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isLogin: StateFlow<Boolean> get() = _isLogin
+    fun login() {
 
-    fun toggleSnackBar() {
-        _showSnackBar.tryEmit(true)
-        Handler(Looper.getMainLooper()).postDelayed({
-            _showSnackBar.tryEmit(false)
-        }, 1500)
     }
 }

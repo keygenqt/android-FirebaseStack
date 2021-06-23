@@ -14,18 +14,12 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.user
 
-import androidx.navigation.NavHostController
-
-class Actions(navController: NavHostController) {
-    val navigateToChatList: () -> Unit = {
-        navController.navigate(NavScreen.ChatList.route)
-    }
-    val navigateToLogin: () -> Unit = {
-        navController.navigate(NavScreen.Login.route)
-    }
-    val upPress: () -> Unit = {
-        navController.navigateUp()
+sealed class NavScreenUser(val route: String) {
+    object ChatList : NavScreenUser("ChatList")
+    object ChatView : NavScreenUser("ChatView") {
+        const val routeWithArgument: String = "ChatView/{chatId}"
+        const val argument0: String = "chatId"
     }
 }
