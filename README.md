@@ -25,6 +25,11 @@ The demo application making the most of Firebase
 * [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
 * [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 
+### Preview
+<p align="center">
+<img src="data/vokoscreen-2021-06-25_12-28-44.gif" width="44%"/>
+</p>
+
 # License
 
 ```

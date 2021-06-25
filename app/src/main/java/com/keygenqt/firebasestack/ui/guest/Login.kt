@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,19 +39,54 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieAnimationSpec
+import com.airbnb.lottie.compose.rememberLottieAnimationState
 import com.keygenqt.firebasestack.R
+import com.keygenqt.firebasestack.extension.visible
+import com.keygenqt.firebasestack.ui.form.BoxTextFieldError
+import com.keygenqt.firebasestack.ui.form.Email
+import com.keygenqt.firebasestack.ui.form.EmailState
 import com.keygenqt.firebasestack.ui.theme.BlackLight
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 import com.keygenqt.firebasestack.ui.theme.Purple700
 
+sealed class LoginEvent {
+    data class LoginPassword(val email: String, val password: String) : LoginEvent()
+    object LoginGoogle : LoginEvent()
+    object LoginGitHub : LoginEvent()
+    object LoginFacebook : LoginEvent()
+    object NavigateBack : LoginEvent()
+}
+
+@Composable
+fun Loader(modifier: Modifier = Modifier) {
+    val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.loading) }
+    val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = 99)
+    LottieAnimation(
+        spec = animationSpec,
+        animationState = animationState,
+        modifier = modifier.fillMaxHeight()
+    )
+}
+
 @Composable
 fun Login(
-    upPress: () -> Unit = {},
-    navigateToUserGraph: () -> Unit = {},
+    loading: Boolean = false,
+    commonError: String? = null,
+    onNavigationEvent: (LoginEvent) -> Unit = {},
 ) {
+
+
+    val focusRequester = remember { FocusRequester() }
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-    val login = remember { mutableStateOf(TextFieldValue("")) }
     val password = remember { mutableStateOf(TextFieldValue("")) }
+
+
+    val emailState = remember { EmailState() }
+    val listState = rememberScrollState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,12 +97,15 @@ fun Login(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = upPress) {
+                    IconButton(onClick = { onNavigationEvent(LoginEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.common_navigate_up)
                         )
                     }
+                },
+                actions = {
+                    Loader(Modifier.visible(loading))
                 }
             )
         },
@@ -76,19 +115,17 @@ fun Login(
             Row {
                 Column(
                     modifier = modifier
-                        .verticalScroll(rememberScrollState())
                         .padding(16.dp)
                         .background(MaterialTheme.colors.background)
+                        .verticalScroll(listState)
                 ) {
-                    TextField(
-                        value = login.value,
-                        onValueChange = {
-                            login.value = it
-                        },
-                        label = { Text("Email") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
+                    commonError?.let {
+                        BoxTextFieldError(textError = it)
+                        Spacer(Modifier.size(padding))
+                        LaunchedEffect(commonError) { listState.animateScrollTo(0) }
+                    }
+
+                    Email(emailState, onImeAction = { focusRequester.requestFocus() })
                     Spacer(Modifier.size(padding))
                     TextField(
                         value = password.value,
@@ -112,7 +149,7 @@ fun Login(
                     )
                     Spacer(Modifier.size(padding))
                     Button(
-                        onClick = navigateToUserGraph,
+                        onClick = { onNavigationEvent(LoginEvent.LoginPassword(emailState.text, "")) },
                         colors = ButtonDefaults.textButtonColors(backgroundColor = Purple700),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -129,7 +166,7 @@ fun Login(
                     )
                     Spacer(Modifier.size(padding))
                     OutlinedButton(
-                        onClick = {},
+                        onClick = { onNavigationEvent(LoginEvent.LoginGoogle) },
                         colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -159,7 +196,7 @@ fun Login(
                     }
                     Spacer(Modifier.size(padding))
                     OutlinedButton(
-                        onClick = {},
+                        onClick = { onNavigationEvent(LoginEvent.LoginGitHub) },
                         colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -189,7 +226,7 @@ fun Login(
                     }
                     Spacer(Modifier.size(padding))
                     OutlinedButton(
-                        onClick = {},
+                        onClick = { onNavigationEvent(LoginEvent.LoginFacebook) },
                         colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
                         modifier = Modifier
                             .fillMaxWidth()
