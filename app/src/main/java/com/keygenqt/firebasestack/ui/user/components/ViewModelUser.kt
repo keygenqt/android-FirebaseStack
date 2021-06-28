@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package com.keygenqt.firebasestack.ui.guest
 
-sealed class NavScreenGuest(val route: String) {
-    object Welcome : NavScreenGuest("Welcome")
-    object Login : NavScreenGuest("Login")
-}
+package com.keygenqt.firebasestack.ui.user.components
+
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
+
+@HiltViewModel
+@ExperimentalCoroutinesApi
+class ViewModelUser @Inject constructor() : ViewModel()

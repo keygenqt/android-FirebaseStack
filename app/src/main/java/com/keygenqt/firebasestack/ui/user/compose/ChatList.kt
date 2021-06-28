@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.user
+package com.keygenqt.firebasestack.ui.user.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

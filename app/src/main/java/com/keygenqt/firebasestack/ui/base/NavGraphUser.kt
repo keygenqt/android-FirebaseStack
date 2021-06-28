@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.user
+package com.keygenqt.firebasestack.ui.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -25,6 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.ui.user.compose.ChatList
+import com.keygenqt.firebasestack.ui.user.compose.ChatView
 
 @Composable
 fun NavGraphUser(navController: NavHostController) {

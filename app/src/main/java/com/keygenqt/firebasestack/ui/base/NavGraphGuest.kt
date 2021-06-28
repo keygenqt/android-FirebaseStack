@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.guest
+package com.keygenqt.firebasestack.ui.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.ui.guest.compose.Welcome
+import com.keygenqt.firebasestack.ui.guest.components.EventsLogin
+import com.keygenqt.firebasestack.ui.guest.components.ViewModelGuest
+import com.keygenqt.firebasestack.ui.guest.compose.Login
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun NavGraphGuest(navController: NavHostController) {
@@ -41,17 +47,19 @@ fun NavGraphGuest(navController: NavHostController) {
                 Welcome(navigateToLogin = actionsGuest.navigateToLogin)
             }
             composable(NavScreenGuest.Login.route) {
+
                 val viewModel: ViewModelGuest = hiltViewModel()
                 val commonError: String? by viewModel.commonError.collectAsState()
                 val loading: Boolean by viewModel.loading.collectAsState()
+
                 Login(loading, commonError) { event ->
                     when (event) {
-                        is LoginEvent.LoginPassword -> viewModel.login(event.email, event.password) {
+                        is EventsLogin.LoginPassword -> viewModel.login(event.email, event.password) {
                             localBaseViewModel.startUser()
                         }
-                        is LoginEvent.LoginGoogle -> viewModel.loginGoogle()
-                        is LoginEvent.LoginGitHub -> viewModel.loginGitHub()
-                        is LoginEvent.LoginFacebook -> viewModel.loginFacebook()
+                        is EventsLogin.LoginGoogle -> viewModel.loginGoogle()
+                        is EventsLogin.LoginGitHub -> viewModel.loginGitHub()
+                        is EventsLogin.LoginFacebook -> viewModel.loginFacebook()
                         else -> actionsGuest.upPress()
                     }
                 }

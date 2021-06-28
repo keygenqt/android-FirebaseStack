@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.guest
+package com.keygenqt.firebasestack.ui.guest.components
 
 import android.os.Handler
 import android.os.Looper
@@ -49,25 +49,6 @@ class ViewModelGuest @Inject constructor(
             success.invoke()
             _loading.value = false
         }, 5000)
-
-
-//        auth.signInWithEmailAndPassword(email, password)
-//            .addOnCompleteListener(this, OnCompleteListener<AuthResult?> { task ->
-//                if (task.isSuccessful) {
-//                    // Sign in success, update UI with the signed-in user's information
-//                    Log.d(TAG, "signInWithEmail:success")
-//                    val user: FirebaseUser = mAuth.getCurrentUser()
-//                    updateUI(user)
-//                } else {
-//                    // If sign in fails, display a message to the user.
-//                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-//                    Toast.makeText(
-//                        this@EmailPasswordActivity, "Authentication failed.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    updateUI(null)
-//                }
-//            })
     }
 
     fun loginGoogle() {

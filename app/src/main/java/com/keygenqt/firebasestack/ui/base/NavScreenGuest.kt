@@ -14,9 +14,9 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.user
+package com.keygenqt.firebasestack.ui.base
 
-import androidx.navigation.NavHostController
-import com.keygenqt.firebasestack.base.Actions
-
-class ActionsUser(navController: NavHostController) : Actions(navController)
+sealed class NavScreenGuest(val route: String) {
+    object Welcome : NavScreenGuest("Welcome")
+    object Login : NavScreenGuest("Login")
+}

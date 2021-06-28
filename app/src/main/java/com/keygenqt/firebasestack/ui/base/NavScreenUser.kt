@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+package com.keygenqt.firebasestack.ui.base
 
-package com.keygenqt.firebasestack.ui.user
-
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
-
-@HiltViewModel
-@ExperimentalCoroutinesApi
-class ViewModelUser @Inject constructor() : ViewModel() {
-
+sealed class NavScreenUser(val route: String) {
+    object ChatList : NavScreenUser("ChatList")
+    object ChatView : NavScreenUser("ChatView") {
+        const val routeWithArgument: String = "ChatView/{chatId}"
+        const val argument0: String = "chatId"
+    }
 }

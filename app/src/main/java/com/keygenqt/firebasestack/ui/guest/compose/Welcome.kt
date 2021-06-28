@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.guest
+package com.keygenqt.firebasestack.ui.guest.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

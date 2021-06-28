@@ -24,14 +24,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
-import com.keygenqt.firebasestack.ui.guest.NavGraphGuest
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
-import com.keygenqt.firebasestack.ui.user.NavGraphUser
-import com.keygenqt.firebasestack.ui.user.NavScreenUser
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @AndroidEntryPoint
 class ActivityMain : ComponentActivity() {
@@ -40,6 +39,8 @@ class ActivityMain : ComponentActivity() {
 
     private lateinit var navController: NavHostController
 
+    @ExperimentalCoroutinesApi
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
