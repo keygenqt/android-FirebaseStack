@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.guest.compose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,12 +32,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.keygenqt.firebasestack.R
+import com.keygenqt.firebasestack.ui.guest.components.EventsWelcome
 import com.keygenqt.firebasestack.ui.theme.BlackLight
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 import com.keygenqt.firebasestack.ui.theme.Purple700
 
 @Composable
-fun Welcome(modifier: Modifier = Modifier, navigateToLogin: () -> Unit = {}) {
+fun Welcome(
+    onNavigationEvent: (EventsWelcome) -> Unit = {},
+) {
     Row {
         Column(
             modifier = Modifier
@@ -67,7 +68,7 @@ fun Welcome(modifier: Modifier = Modifier, navigateToLogin: () -> Unit = {}) {
             ConstraintLayout(
                 modifier = Modifier
                     .padding(top = 22.dp)
-                    .weight(0.8f)
+                    .weight(0.6f)
                     .fillMaxWidth()
             ) {
                 val (image) = createRefs()
@@ -87,28 +88,47 @@ fun Welcome(modifier: Modifier = Modifier, navigateToLogin: () -> Unit = {}) {
             }
             ConstraintLayout(
                 modifier = Modifier
-                    .weight(0.2f)
+                    .weight(0.25f)
                     .fillMaxWidth()
                     .padding(30.dp)
             ) {
-                val (button) = createRefs()
-                Button(
-                    onClick = navigateToLogin,
-                    colors = ButtonDefaults.textButtonColors(backgroundColor = Purple700),
+                val (row) = createRefs()
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .constrainAs(button) {
-                            top.linkTo(parent.top)
+                        .constrainAs(row) {
                             bottom.linkTo(parent.bottom)
+                            top.linkTo(parent.top)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         }
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.welcome_btn_login),
-                        color = Color.White,
-                    )
+                    Column {
+                        Button(
+                            onClick = { onNavigationEvent(EventsWelcome.ToLogin) },
+                            colors = ButtonDefaults.textButtonColors(backgroundColor = Purple700),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.welcome_btn_login),
+                                color = Color.White,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.size(20.dp))
+
+                        OutlinedButton(
+                            onClick = { onNavigationEvent(EventsWelcome.ToRegistration) },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.welcome_btn_registration),
+                            )
+                        }
+                    }
                 }
+
             }
         }
     }

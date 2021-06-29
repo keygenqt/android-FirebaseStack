@@ -16,10 +16,9 @@
 
 package com.keygenqt.firebasestack.ui.guest.components
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,9 +28,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 @ExperimentalCoroutinesApi
-class ViewModelGuest @Inject constructor(
-    private val auth: FirebaseAuth
-) : ViewModel() {
+class ViewModelGuest @Inject constructor() : ViewModel() {
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     private val _commonError: MutableStateFlow<String?> = MutableStateFlow(null)
     val commonError: StateFlow<String?> get() = _commonError
@@ -39,42 +40,50 @@ class ViewModelGuest @Inject constructor(
     private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val loading: StateFlow<Boolean> get() = _loading
 
-    private val _loginSuccess: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val loginSuccess: StateFlow<Boolean> get() = _loginSuccess
+    fun registration(fname: String, lname: String, email: String, password: String, success: () -> Unit) {
+        _commonError.value = null
+        _loading.value = true
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                success.invoke()
+                _loading.value = false
+            } else {
+                _commonError.value = it.exception?.message ?: "Registration failed"
+                _loading.value = false
+            }
+        }
+    }
 
     fun login(email: String, password: String, success: () -> Unit) {
         _commonError.value = null
         _loading.value = true
-        Handler(Looper.getMainLooper()).postDelayed({ // Simulate query
-            success.invoke()
-            _loading.value = false
-        }, 5000)
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                success.invoke()
+                _loading.value = false
+            } else {
+                _commonError.value = it.exception?.message ?: "Authentication failed"
+                _loading.value = false
+            }
+        }
     }
 
-    fun loginGoogle() {
-        _commonError.value = null
-        _loading.value = true
-        Handler(Looper.getMainLooper()).postDelayed({ // Simulate query
-            _commonError.value = "Error login Google"
-            _loading.value = false
-        }, 5000)
-    }
-
-    fun loginGitHub() {
-        _commonError.value = null
-        _loading.value = true
-        Handler(Looper.getMainLooper()).postDelayed({ // Simulate query
-            _commonError.value = "Error login GitHub"
-            _loading.value = false
-        }, 5000)
-    }
-
-    fun loginFacebook() {
-        _commonError.value = null
-        _loading.value = true
-        Handler(Looper.getMainLooper()).postDelayed({ // Simulate query
-            _commonError.value = "Error login Facebook"
-            _loading.value = false
-        }, 5000)
+    fun loginGoogle(idToken: String?, success: () -> Unit) {
+        idToken?.let {
+            _commonError.value = null
+            _loading.value = true
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    success.invoke()
+                    _loading.value = false
+                } else {
+                    _commonError.value = it.exception?.message ?: "Registration failed"
+                    _loading.value = false
+                }
+            }
+        } ?: run {
+            _commonError.value = "Registration failed"
+        }
     }
 }

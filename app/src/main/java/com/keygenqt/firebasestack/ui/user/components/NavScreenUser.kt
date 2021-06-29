@@ -14,9 +14,12 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.user.components
 
-sealed class NavScreenGuest(val route: String) {
-    object Welcome : NavScreenGuest("Welcome")
-    object Login : NavScreenGuest("Login")
+sealed class NavScreenUser(val route: String) {
+    object ChatList : NavScreenUser("ChatList")
+    object ChatView : NavScreenUser("ChatView") {
+        const val routeWithArgument: String = "ChatView/{chatId}"
+        const val argument0: String = "chatId"
+    }
 }

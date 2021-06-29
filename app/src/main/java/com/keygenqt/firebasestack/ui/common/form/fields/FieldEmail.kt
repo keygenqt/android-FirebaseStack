@@ -1,4 +1,4 @@
-package com.keygenqt.firebasestack.ui.form.fields
+package com.keygenqt.firebasestack.ui.common.form.fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,8 +16,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
-import com.keygenqt.firebasestack.ui.form.TextFieldError
-import com.keygenqt.firebasestack.ui.form.states.EmailState
+import com.keygenqt.firebasestack.ui.common.form.TextFieldError
+import com.keygenqt.firebasestack.ui.common.form.states.EmailState
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 
 @ExperimentalComposeUiApi

@@ -45,10 +45,4 @@ object CommonModule {
             )
         )
     }
-
-    @Provides
-    @ViewModelScoped
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
 }

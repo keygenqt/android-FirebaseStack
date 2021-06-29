@@ -4,6 +4,7 @@
     <!-- Welcome-->
     <string name="welcome_title">Welcome!</string>
     <string name="welcome_btn_login">Login</string>
+    <string name="welcome_btn_registration">Registration</string>
 
     <!-- Login-->
     <string name="login_title">Login</string>
@@ -12,12 +13,21 @@
     <string name="login_github">Sign In with GitHub</string>
     <string name="login_facebook">Sign In with Facebook</string>
 
+    <!-- Registration-->
+    <string name="registration_title">Registration</string>
+    <string name="registration_base_info">Base Info</string>
+    <string name="registration_subtitle_info">Info</string>
+    <string name="registration_subtitle_credentials">Credentials</string>
+
     <!-- Chat List-->
     <string name="chat_list_title">Chat List</string>
 
     <!-- Form-->
+    <string name="form_edit_text">Edit Text</string>
     <string name="form_email">Email</string>
     <string name="form_password">Password</string>
+    <string name="form_fname">First Name</string>
+    <string name="form_lname">Last Name</string>
 
     <!-- Errors-->
     <string name="error_field_min_length">Minimum length %s characters</string>

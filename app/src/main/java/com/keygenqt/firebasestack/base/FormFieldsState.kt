@@ -1,6 +1,5 @@
 package com.keygenqt.firebasestack.base
 
-import com.keygenqt.firebasestack.ui.form.states.FormStates
 
 class FormFieldsState {
 

@@ -14,5 +14,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowSplashScreenBackground">#232426</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">#232426</item>
     </style>
 </resources>

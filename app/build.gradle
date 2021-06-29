@@ -25,6 +25,10 @@ android {
 	buildToolsVersion sdk_versions.buildToolsVersion
 
 	defaultConfig {
+
+		// secret ~/.gradle/gradle.properties
+		buildConfigField "String", "GOOGLE_CLIENT_ID", "$GOOGLE_CLIENT_ID"
+
 		applicationId "com.keygenqt.firebasestack"
 
 		targetSdk build_versions.targetSdk
@@ -40,7 +44,6 @@ android {
 
 	// android 12
 	compileSdkVersion "android-S"
-	defaultConfig {  targetSdkVersion "S" }
 
 	buildTypes {
 		release {
@@ -63,14 +66,6 @@ android {
 		kotlinCompilerExtensionVersion versions.compose_version
 		kotlinCompilerVersion '1.5.10'
 	}
-//	sourceSets {
-//		main {
-//			res.srcDirs = []
-//			file('src/main/res')
-//					.listFiles()
-//					.each { res.srcDirs += it.path }
-//		}
-//	}
 }
 
 dependencies {

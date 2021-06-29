@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.common.base
 
 import android.os.Handler
 import android.os.Looper
@@ -26,14 +26,16 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelMain @Inject constructor(
-    private val auth: FirebaseAuth
-) : ViewModel() {
+class ViewModelMain @Inject constructor() : ViewModel() {
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     private val _isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isReady: StateFlow<Boolean> get() = _isReady
 
-    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(auth.currentUser != null)
+    private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(firebaseAuth.currentUser != null)
     val isLogin: StateFlow<Boolean> get() = _isLogin
 
     private val _showSnackBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -42,7 +44,7 @@ class ViewModelMain @Inject constructor(
     init {
         Handler(Looper.getMainLooper()).postDelayed({ // Simulate work for splash
             _isReady.value = true
-        }, 1000)
+        }, 2000)
     }
 
     fun startUser() {
@@ -51,7 +53,7 @@ class ViewModelMain @Inject constructor(
 
     fun logout() {
         _isLogin.value = false
-        auth.signOut()
+        firebaseAuth.signOut()
     }
 
     fun isShowSnackBar(): Boolean {

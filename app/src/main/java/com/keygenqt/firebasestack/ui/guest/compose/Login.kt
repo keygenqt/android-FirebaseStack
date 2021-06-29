@@ -16,6 +16,12 @@
 
 package com.keygenqt.firebasestack.ui.guest.compose
 
+import android.app.Activity
+import android.app.PendingIntent
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -34,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -42,18 +49,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.keygenqt.firebasestack.BuildConfig
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
 import com.keygenqt.firebasestack.extension.visible
-import com.keygenqt.firebasestack.ui.base.Loader
-import com.keygenqt.firebasestack.ui.form.BoxTextFieldError
-import com.keygenqt.firebasestack.ui.form.fields.FieldEmail
-import com.keygenqt.firebasestack.ui.form.fields.FieldPassword
-import com.keygenqt.firebasestack.ui.form.states.FormStates.FieldEmail
-import com.keygenqt.firebasestack.ui.form.states.FormStates.FieldPassword
+import com.keygenqt.firebasestack.ui.common.base.Loader
+import com.keygenqt.firebasestack.ui.common.form.BoxTextFieldError
+import com.keygenqt.firebasestack.ui.common.form.fields.FieldEmail
+import com.keygenqt.firebasestack.ui.common.form.fields.FieldPassword
 import com.keygenqt.firebasestack.ui.guest.components.EventsLogin
+import com.keygenqt.firebasestack.ui.guest.components.FormStatesLogin.FieldEmail
+import com.keygenqt.firebasestack.ui.guest.components.FormStatesLogin.FieldPassword
 import com.keygenqt.firebasestack.ui.theme.BlackLight
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import timber.log.Timber
+
 
 @ExperimentalComposeUiApi
 @Composable
@@ -98,10 +111,13 @@ fun Login(
             Row {
                 Column(
                     modifier = modifier
-                        .padding(16.dp)
+                        .padding(start = padding, end = padding)
                         .background(MaterialTheme.colors.background)
                         .verticalScroll(listState)
                 ) {
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
                     // common error
                     commonError?.let {
                         BoxTextFieldError(textError = it)
@@ -109,13 +125,12 @@ fun Login(
                         LaunchedEffect(commonError) { listState.animateScrollTo(0) }
                     }
 
-                    LoginBlockPassword(
+                    FormPassword(
                         loading = loading,
                         formFields = formFields,
                         onNavigationEvent = onNavigationEvent,
                         softwareKeyboardController = softwareKeyboardController
                     )
-
 
                     // social buttons
                     TitleSocialButtons {
@@ -132,9 +147,9 @@ fun Login(
                             // hide keyboard
                             softwareKeyboardController?.hide()
                         }
-                    ) {
-                        Spacer(modifier = Modifier.size(16.dp))
-                    }
+                    )
+
+                    Spacer(modifier = Modifier.size(16.dp))
                 }
             }
         },
@@ -143,7 +158,7 @@ fun Login(
 
 @ExperimentalComposeUiApi
 @Composable
-fun LoginBlockPassword(
+fun FormPassword(
     loading: Boolean = false,
     onNavigationEvent: (EventsLogin) -> Unit = {},
     formFields: FormFieldsState = FormFieldsState(),
@@ -218,14 +233,44 @@ fun TitleSocialButtons(
 fun SocialButtons(
     loading: Boolean = false,
     onNavigationEvent: (EventsLogin) -> Unit = {},
-    spacer: @Composable () -> Unit = { Spacer(modifier = Modifier.size(16.dp)) }
 ) {
+
+    val context = LocalContext.current
+
+    val pendingIntent = remember {
+        PendingIntent.getActivity(
+            context, 0, GoogleSignIn.getClient(
+                context, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+                    .build()
+            ).signInIntent, PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) {
+        if (it.resultCode != Activity.RESULT_OK) {
+            onNavigationEvent(EventsLogin.LoginGoogle(null))
+        } else {
+            GoogleSignIn.getSignedInAccountFromIntent(it.data).let { task ->
+                task.getResult(ApiException::class.java).let { account ->
+                    account.idToken?.let { id ->
+                        onNavigationEvent(EventsLogin.LoginGoogle(id))
+                    }
+                }
+            }
+        }
+    }
+
     OutlinedButton(
         enabled = !loading,
-        onClick = { onNavigationEvent(EventsLogin.LoginGoogle) },
+        onClick = {
+            launcher.launch(IntentSenderRequest.Builder(pendingIntent).build())
+        },
         colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
@@ -242,68 +287,6 @@ fun SocialButtons(
                 Text(
                     style = MaterialTheme.typography.subtitle1,
                     text = stringResource(id = R.string.login_google),
-                    color = BlackLight,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-            }
-        }
-    }
-    spacer()
-    OutlinedButton(
-        enabled = !loading,
-        onClick = { onNavigationEvent(EventsLogin.LoginGitHub) },
-        colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(R.drawable.ic_github_original),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(24.dp)
-            )
-            Column(
-                modifier = Modifier.width(200.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    style = MaterialTheme.typography.subtitle1,
-                    text = stringResource(id = R.string.login_github),
-                    color = BlackLight,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-            }
-        }
-    }
-    spacer()
-    OutlinedButton(
-        enabled = !loading,
-        onClick = { onNavigationEvent(EventsLogin.LoginFacebook) },
-        colors = ButtonDefaults.textButtonColors(backgroundColor = Color.White),
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(R.drawable.ic_facebook_original),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(24.dp)
-            )
-            Column(
-                modifier = Modifier.width(200.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    style = MaterialTheme.typography.subtitle1,
-                    text = stringResource(id = R.string.login_facebook),
                     color = BlackLight,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier

@@ -13,23 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+package com.keygenqt.firebasestack.ui.user.components
 
-@file:Suppress("unused")
+import androidx.navigation.NavHostController
+import com.keygenqt.firebasestack.base.Actions
 
-package com.keygenqt.firebasestack.initializer
-
-import android.content.Context
-import androidx.startup.Initializer
-import com.keygenqt.firebasestack.BuildConfig
-import timber.log.Timber
-
-class TimberInitializer : Initializer<Unit> {
-
-    override fun create(context: Context) {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
-
-    override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
-}
+class ActionsUser(navController: NavHostController) : Actions(navController)

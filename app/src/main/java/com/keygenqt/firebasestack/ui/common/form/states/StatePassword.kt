@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.form.states
+package com.keygenqt.firebasestack.ui.common.form.states
 
 import android.content.Context
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
+import com.keygenqt.firebasestack.base.getErrorIsBlank
 import java.util.regex.Pattern
 
 private const val PASSWORD_VALIDATION_REGEX = """^[0-9_A-z]+$"""
@@ -26,32 +27,32 @@ private const val PASSWORD_VALIDATION_REGEX = """^[0-9_A-z]+$"""
 class PasswordState : FormFieldState(checkValid = ::checkValid)
 
 private fun checkValid(target: String) = listOfNotNull(
-    isEmpty(target),
-    isLengthNotSmall(target),
-    isLengthNotLong(target),
-    isPatternMatches(target),
+    getErrorIsBlank(target),
+    getErrorIsSmall(target),
+    getErrorIsLong(target),
+    getErrorIsNotMatches(target),
 )
 
-private fun isEmpty(target: String) =
+private fun getErrorIsSmall(target: String) =
     when {
-        target.isNotBlank() -> null
-        else -> { it: Context -> it.getString(R.string.is_required) }
+        target.length < 6 -> { it: Context ->
+            it.getString(R.string.error_field_min_length, "6")
+        }
+        else -> null
     }
 
-private fun isLengthNotSmall(target: String) =
+private fun getErrorIsLong(target: String) =
     when {
-        target.length > 2 -> null
-        else -> { it: Context -> it.getString(R.string.error_field_min_length, "2") }
+        target.length > 12 -> { it: Context ->
+            it.getString(R.string.error_field_max_length, "12")
+        }
+        else -> null
     }
 
-private fun isLengthNotLong(target: String) =
+private fun getErrorIsNotMatches(target: String) =
     when {
-        target.length < 10 -> null
-        else -> { it: Context -> it.getString(R.string.error_field_max_length, "10") }
-    }
-
-private fun isPatternMatches(target: String) =
-    when {
-        Pattern.matches(PASSWORD_VALIDATION_REGEX, target) -> null
-        else -> { it: Context -> it.getString(R.string.is_incorrect) }
+        !Pattern.matches(PASSWORD_VALIDATION_REGEX, target) -> { it: Context ->
+            it.getString(R.string.is_incorrect)
+        }
+        else -> null
     }

@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.guest.components
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,16 +28,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
-import com.keygenqt.firebasestack.ui.guest.compose.Welcome
-import com.keygenqt.firebasestack.ui.guest.components.EventsLogin
-import com.keygenqt.firebasestack.ui.guest.components.ViewModelGuest
 import com.keygenqt.firebasestack.ui.guest.compose.Login
+import com.keygenqt.firebasestack.ui.guest.compose.Registration
+import com.keygenqt.firebasestack.ui.guest.compose.Splash
+import com.keygenqt.firebasestack.ui.guest.compose.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
-@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
+@ExperimentalComposeUiApi
 @Composable
 fun NavGraphGuest(navController: NavHostController) {
+
     val localBaseViewModel = LocalBaseViewModel.current
     val actionsGuest = remember(navController) {
         ActionsGuest(navController)
@@ -44,7 +47,37 @@ fun NavGraphGuest(navController: NavHostController) {
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenGuest.Welcome.route) {
             composable(NavScreenGuest.Welcome.route) {
-                Welcome(navigateToLogin = actionsGuest.navigateToLogin)
+                val isReady: Boolean by localBaseViewModel.isReady.collectAsState()
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R && !isReady) {
+                    Splash()
+                } else {
+                    Welcome { event ->
+                        when (event) {
+                            is EventsWelcome.ToLogin -> actionsGuest.navigateToLogin.invoke()
+                            is EventsWelcome.ToRegistration -> actionsGuest.navigateToRegistration.invoke()
+                        }
+                    }
+                }
+            }
+            composable(NavScreenGuest.Registration.route) {
+
+                val viewModel: ViewModelGuest = hiltViewModel()
+                val commonError: String? by viewModel.commonError.collectAsState()
+                val loading: Boolean by viewModel.loading.collectAsState()
+
+                Registration(loading, commonError) { event ->
+                    when (event) {
+                        is EventsRegistration.Registration -> viewModel.registration(
+                            event.first_name,
+                            event.last_name,
+                            event.email,
+                            event.password
+                        ) {
+                            localBaseViewModel.startUser()
+                        }
+                        is EventsRegistration.NavigateBack -> actionsGuest.upPress.invoke()
+                    }
+                }
             }
             composable(NavScreenGuest.Login.route) {
 
@@ -57,10 +90,10 @@ fun NavGraphGuest(navController: NavHostController) {
                         is EventsLogin.LoginPassword -> viewModel.login(event.email, event.password) {
                             localBaseViewModel.startUser()
                         }
-                        is EventsLogin.LoginGoogle -> viewModel.loginGoogle()
-                        is EventsLogin.LoginGitHub -> viewModel.loginGitHub()
-                        is EventsLogin.LoginFacebook -> viewModel.loginFacebook()
-                        else -> actionsGuest.upPress()
+                        is EventsLogin.LoginGoogle -> viewModel.loginGoogle(event.idToken) {
+                            localBaseViewModel.startUser()
+                        }
+                        is EventsLogin.NavigateBack -> actionsGuest.upPress.invoke()
                     }
                 }
             }

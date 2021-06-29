@@ -1,4 +1,4 @@
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.common.base
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.keygenqt.firebasestack.ui.form
+package com.keygenqt.firebasestack.ui.common.form
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row

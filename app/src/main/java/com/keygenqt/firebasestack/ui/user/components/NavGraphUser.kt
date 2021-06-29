@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.user.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

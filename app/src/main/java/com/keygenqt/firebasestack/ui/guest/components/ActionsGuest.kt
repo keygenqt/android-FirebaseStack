@@ -14,9 +14,17 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.guest.components
 
 import androidx.navigation.NavHostController
 import com.keygenqt.firebasestack.base.Actions
+import com.keygenqt.firebasestack.ui.guest.components.NavScreenGuest
 
-class ActionsUser(navController: NavHostController) : Actions(navController)
+class ActionsGuest(navController: NavHostController) : Actions(navController) {
+    val navigateToLogin: () -> Unit = {
+        navController.navigate(NavScreenGuest.Login.route)
+    }
+    val navigateToRegistration: () -> Unit = {
+        navController.navigate(NavScreenGuest.Registration.route)
+    }
+}

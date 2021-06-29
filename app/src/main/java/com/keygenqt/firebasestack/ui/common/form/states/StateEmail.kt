@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.form.states
+package com.keygenqt.firebasestack.ui.common.form.states
 
 import android.content.Context
 import android.util.Patterns.EMAIL_ADDRESS
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
+import com.keygenqt.firebasestack.base.getErrorIsBlank
 
 class EmailState : FormFieldState(checkValid = ::checkValid)
 
 private fun checkValid(target: String) = listOfNotNull(
-    isEmpty(target),
-    isPatternMatches(target),
+    getErrorIsBlank(target),
+    getErrorIsNotEmail(target),
 )
 
-private fun isEmpty(target: String) =
-    when {
-        target.isNotBlank() -> null
-        else -> { it: Context -> it.getString(R.string.is_required) }
+private fun getErrorIsNotEmail(target: String) = when {
+    !EMAIL_ADDRESS.matcher(target).matches() -> { it: Context ->
+        it.getString(R.string.is_incorrect)
     }
-
-private fun isPatternMatches(target: String) =
-    when {
-        EMAIL_ADDRESS.matcher(target).matches() -> null
-        else -> { it: Context -> it.getString(R.string.is_incorrect) }
-    }
+    else -> null
+}

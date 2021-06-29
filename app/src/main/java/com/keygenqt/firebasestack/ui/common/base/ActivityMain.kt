@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.base
+package com.keygenqt.firebasestack.ui.common.base
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewTreeObserver.OnPreDrawListener
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -28,9 +26,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.ui.guest.components.NavGraphGuest
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.user.components.NavGraphUser
+import com.keygenqt.firebasestack.ui.user.components.NavScreenUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 @AndroidEntryPoint
 class ActivityMain : ComponentActivity() {
@@ -57,20 +59,6 @@ class ActivityMain : ComponentActivity() {
                 }
             }
         }
-
-        // Splash delay
-        window.decorView.findViewById<View>(android.R.id.content)?.let { content ->
-            content.viewTreeObserver.addOnPreDrawListener(
-                object : OnPreDrawListener {
-                    override fun onPreDraw(): Boolean {
-                        return if (viewModel.isReady.value) {
-                            content.viewTreeObserver.removeOnPreDrawListener(this); true
-                        } else false
-                    }
-                }
-            )
-        }
-
     }
 
     override fun onBackPressed() {
