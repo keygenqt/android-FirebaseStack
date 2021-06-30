@@ -28,12 +28,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.extension.AddFirebaseAnalyticsPage
 import com.keygenqt.firebasestack.ui.guest.compose.Login
 import com.keygenqt.firebasestack.ui.guest.compose.Registration
 import com.keygenqt.firebasestack.ui.guest.compose.Splash
 import com.keygenqt.firebasestack.ui.guest.compose.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
+
 
 @ExperimentalCoroutinesApi
 @ExperimentalComposeUiApi
@@ -44,6 +45,9 @@ fun NavGraphGuest(navController: NavHostController) {
     val actionsGuest = remember(navController) {
         ActionsGuest(navController)
     }
+
+    navController.AddFirebaseAnalyticsPage("NavGraphGuest")
+
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenGuest.Welcome.route) {
             composable(NavScreenGuest.Welcome.route) {
@@ -90,7 +94,7 @@ fun NavGraphGuest(navController: NavHostController) {
                         is EventsLogin.LoginPassword -> viewModel.login(event.email, event.password) {
                             localBaseViewModel.startUser()
                         }
-                        is EventsLogin.LoginGoogle -> viewModel.loginGoogle(event.idToken) {
+                        is EventsLogin.LoginGoogle -> viewModel.loginGoogle(event.email, event.idToken) {
                             localBaseViewModel.startUser()
                         }
                         is EventsLogin.NavigateBack -> actionsGuest.upPress.invoke()

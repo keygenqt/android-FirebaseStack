@@ -9,8 +9,8 @@ sdk_versions.buildToolsVersion = "30.0.3"
 // build
 build_versions.minSdk = 23
 build_versions.targetSdk = 31
-build_versions.versionCode = 1
-build_versions.versionName = "1.0"
+build_versions.versionCode = 2
+build_versions.versionName = "1.0.0"
 
 // base
 versions.kotlin = '1.5.10'
@@ -30,6 +30,6 @@ versions.startup_runtime = "1.0.0"
 versions.hilt_compiler = "1.0.0"
 versions.hilt_dagger = "2.36"
 versions.hilt_navigation_compose="1.0.0-alpha03"
-versions.accompanist="0.11.1"
+versions.accompanist="0.12.0"
 versions.constraint="1.0.0-alpha08"
 versions.security_crypto="1.1.0-alpha03"

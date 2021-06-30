@@ -17,10 +17,12 @@
 package com.keygenqt.firebasestack.di
 
 import android.content.Context
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.keygenqt.firebasestack.base.BaseSharedPreferences
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,18 +32,28 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object CommonModule {
+object FirebaseModule {
     @Provides
     @ViewModelScoped
-    fun provideSharedPreferences(@ApplicationContext context: Context): BaseSharedPreferences {
-        return BaseSharedPreferences(
-            EncryptedSharedPreferences.create(
-                context,
-                "sharedPrefsFile",
-                MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-        )
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFirebaseCrashlytics(): FirebaseCrashlytics {
+        return FirebaseCrashlytics.getInstance()
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(context)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFirebaseDB(): FirebaseDatabase {
+        return Firebase.database
     }
 }

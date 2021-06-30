@@ -20,6 +20,7 @@
     <string name="registration_subtitle_credentials">Credentials</string>
 
     <!-- Chat List-->
+    <string name="chat_list_title_name">Chat List (%s)</string>
     <string name="chat_list_title">Chat List</string>
 
     <!-- Form-->

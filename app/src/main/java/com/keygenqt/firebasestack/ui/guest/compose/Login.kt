@@ -18,7 +18,7 @@ package com.keygenqt.firebasestack.ui.guest.compose
 
 import android.app.Activity
 import android.app.PendingIntent
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -65,7 +65,6 @@ import com.keygenqt.firebasestack.ui.guest.components.FormStatesLogin.FieldEmail
 import com.keygenqt.firebasestack.ui.guest.components.FormStatesLogin.FieldPassword
 import com.keygenqt.firebasestack.ui.theme.BlackLight
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
-import timber.log.Timber
 
 
 @ExperimentalComposeUiApi
@@ -252,12 +251,12 @@ fun SocialButtons(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) {
         if (it.resultCode != Activity.RESULT_OK) {
-            onNavigationEvent(EventsLogin.LoginGoogle(null))
+            Toast.makeText(context, "Error. Code: ${it.resultCode}", Toast.LENGTH_SHORT).show()
         } else {
             GoogleSignIn.getSignedInAccountFromIntent(it.data).let { task ->
                 task.getResult(ApiException::class.java).let { account ->
                     account.idToken?.let { id ->
-                        onNavigationEvent(EventsLogin.LoginGoogle(id))
+                        onNavigationEvent(EventsLogin.LoginGoogle(account.email ?: "", id))
                     }
                 }
             }

@@ -16,21 +16,25 @@
 
 package com.keygenqt.firebasestack.ui.common.base
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.ViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelMain @Inject constructor() : ViewModel() {
-
-    private val firebaseAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+class ViewModelMain @Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val crashlytics: FirebaseCrashlytics,
+    private val analytics: FirebaseAnalytics,
+) : ViewModel() {
 
     private val _isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isReady: StateFlow<Boolean> get() = _isReady
@@ -48,11 +52,15 @@ class ViewModelMain @Inject constructor() : ViewModel() {
     }
 
     fun startUser() {
-        _isLogin.value = true
+        firebaseAuth.currentUser?.let { user ->
+            _isLogin.value = true
+            crashlytics.setUserId(user.uid)
+        }
     }
 
     fun logout() {
         _isLogin.value = false
+        crashlytics.setUserId("")
         firebaseAuth.signOut()
     }
 
@@ -65,5 +73,12 @@ class ViewModelMain @Inject constructor() : ViewModel() {
         Handler(Looper.getMainLooper()).postDelayed({
             _showSnackBar.tryEmit(false)
         }, 1500)
+    }
+
+    fun analyticsCurrentRoute(navGraph: String, screenName: String) {
+        analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, Bundle().apply {
+            putString(FirebaseAnalytics.Param.SCREEN_CLASS, navGraph)
+            putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+        })
     }
 }

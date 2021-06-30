@@ -8,7 +8,8 @@ sealed class EventsLogin {
     ) : EventsLogin()
 
     data class LoginGoogle(
-        val idToken: String?
+        val email: String,
+        val idToken: String
     ) : EventsLogin()
 
     object NavigateBack : EventsLogin()

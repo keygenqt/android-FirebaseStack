@@ -11,19 +11,19 @@ The demo application making the most of Firebase
 * [Android 12](https://developer.android.com/about/versions/12?authuser=1)
 
 ### Firebase Stack
-* [Firebase Authentication](https://firebase.google.com/docs/auth)
-* [Firebase Realtime Database](https://firebase.google.com/docs/database)
-* [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
-* [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)
-* [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
-* [Google Analytics](https://firebase.google.com/docs/analytics)
-* [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
-* [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
-* [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
-* [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
-* [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
-* [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
-* [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
+* :heavy_check_mark: [Firebase Authentication](https://firebase.google.com/docs/auth)
+* :heavy_check_mark: [Firebase Realtime Database](https://firebase.google.com/docs/database)
+* :hourglass: [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
+* :heavy_check_mark: [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)
+* :hourglass: [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
+* :heavy_check_mark: [Google Analytics](https://firebase.google.com/docs/analytics)
+* :hourglass: [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
+* :hourglass: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
+* :hourglass: [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
+* :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
+* :heavy_check_mark: [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
+* :hourglass: [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
+* :hourglass: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 
 ### Preview
 <p align="center">

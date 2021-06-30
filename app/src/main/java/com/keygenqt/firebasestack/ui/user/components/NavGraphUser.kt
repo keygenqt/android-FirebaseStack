@@ -17,7 +17,10 @@
 package com.keygenqt.firebasestack.ui.user.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,19 +28,30 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
+import com.keygenqt.firebasestack.extension.AddFirebaseAnalyticsPage
+import com.keygenqt.firebasestack.models.ModelUser
 import com.keygenqt.firebasestack.ui.user.compose.ChatList
 import com.keygenqt.firebasestack.ui.user.compose.ChatView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
 fun NavGraphUser(navController: NavHostController) {
     val localBaseViewModel = LocalBaseViewModel.current
     val actionsUser = remember(navController) {
         ActionsUser(navController)
     }
+
+    navController.AddFirebaseAnalyticsPage("NavGraphUser")
+
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenUser.ChatList.route) {
             composable(NavScreenUser.ChatList.route) {
-                ChatList { localBaseViewModel.logout() }
+
+                val viewModel: ViewModelUser = hiltViewModel()
+                val user: ModelUser? by viewModel.user.collectAsState()
+
+                ChatList(user) { localBaseViewModel.logout() }
             }
             composable(
                 route = NavScreenUser.ChatView.routeWithArgument,

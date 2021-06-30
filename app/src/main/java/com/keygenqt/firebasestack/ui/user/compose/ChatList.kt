@@ -33,11 +33,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
 import com.keygenqt.firebasestack.extension.visible
+import com.keygenqt.firebasestack.models.ModelUser
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 
 
 @Composable
 fun ChatList(
+    user: ModelUser? = ModelUser.mock(),
     logout: () -> Unit = {},
 ) {
 
@@ -49,7 +51,11 @@ fun ChatList(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.chat_list_title),
+                        text = user?.nickname?.let { name ->
+                            stringResource(id = R.string.chat_list_title_name, name)
+                        } ?: run {
+                            stringResource(id = R.string.chat_list_title)
+                        },
                         color = LocalContentColor.current
                     )
                 },
@@ -96,7 +102,7 @@ fun ChatList(
                             .padding(16.dp)
                             .background(MaterialTheme.colors.background)
                     ) {
-                        Text(text = stringResource(id = R.string.chat_list_title))
+                        Text(text = "Will be list")
                     }
                 }
                 Snackbar(
