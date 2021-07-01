@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.base
 
 import androidx.navigation.NavHostController
+import com.keygenqt.firebasestack.ui.user.components.NavScreenUser
 
 open class Actions(navController: NavHostController) {
+    val navigateToEditProfile: () -> Unit = {
+        navController.navigate(NavScreenUser.EditProfile.route)
+    }
     val upPress: () -> Unit = {
         navController.navigateUp()
     }

@@ -20,18 +20,28 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ModelUser(
-    val email: String = "",
-    val first_name: String = "",
-    val last_name: String = ""
+    var email: String = "",
+    var first_name: String = "",
+    var last_name: String = ""
 ) {
     val nickname: String?
-        get() = (if (email.isEmpty()) "$first_name $last_name" else email).let {
+        get() = (if ("$first_name $last_name".isBlank()) email else "$first_name $last_name".trim()).let {
             if (it.isBlank()) null else it
         }
+
+    operator fun plus(modelUser: ModelUser): ModelUser {
+        return ModelUser(
+            email = if (this.email.isBlank()) modelUser.email else this.email,
+            first_name = if (this.first_name.isBlank()) modelUser.first_name else this.first_name,
+            last_name = if (this.last_name.isBlank()) modelUser.last_name else this.last_name
+        )
+    }
 
     companion object {
         fun mock() = ModelUser(
             email = "mock@email.com",
+            first_name = "Vitaly",
+            last_name = "Zarubin",
         )
     }
 }

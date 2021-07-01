@@ -5,8 +5,9 @@ class FormFieldsState {
 
     private val states = mutableMapOf<FormStates, FormFieldState>()
 
-    fun add(key: FormStates, state: FormFieldState) {
+    fun add(key: FormStates, state: FormFieldState, value: String? = null) {
         states[key] = state
+        value?.let { state.text = it }
     }
 
     fun remove(key: FormStates) {

@@ -23,10 +23,10 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +34,7 @@ class ViewModelMain @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val crashlytics: FirebaseCrashlytics,
     private val analytics: FirebaseAnalytics,
+    remoteConfig: FirebaseRemoteConfig,
 ) : ViewModel() {
 
     private val _isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -46,9 +47,15 @@ class ViewModelMain @Inject constructor(
     val showSnackBar: StateFlow<Boolean> get() = _showSnackBar
 
     init {
-        Handler(Looper.getMainLooper()).postDelayed({ // Simulate work for splash
-            _isReady.value = true
-        }, 2000)
+        Handler(Looper.getMainLooper()).postDelayed({
+            remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _isReady.value = true
+                } else {
+                    throw RuntimeException("Fetch failed")
+                }
+            }
+        }, 1) // For simulate long work for splash
     }
 
     fun startUser() {

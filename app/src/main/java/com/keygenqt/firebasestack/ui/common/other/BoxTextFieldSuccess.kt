@@ -12,14 +12,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.theme.Teal200
 
 /**
  * To be removed when [TextField]s support error
  */
 @Composable
-fun BoxTextFieldError(
+fun BoxTextFieldSuccess(
     modifier: Modifier = Modifier,
-    textError: String = "Box Text Field Error Preview"
+    textError: String = "The update was successful"
 ) {
     Card(
         elevation = 4.dp,
@@ -28,7 +29,7 @@ fun BoxTextFieldError(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colors.error)
+                .background(Teal200)
         ) {
             Text(
                 text = textError,
@@ -46,16 +47,16 @@ fun BoxTextFieldError(
 
 @Preview
 @Composable
-fun BoxTextFieldErrorPreviewLight() {
+fun BoxTextFieldSuccess_PreviewLight() {
     FirebaseStackTheme(darkTheme = false) {
-        BoxTextFieldError()
+        BoxTextFieldSuccess()
     }
 }
 
 @Preview
 @Composable
-fun BoxTextFieldErrorPreviewDark() {
+fun BoxTextFieldSuccess_rPreviewDark() {
     FirebaseStackTheme(darkTheme = true) {
-        BoxTextFieldError()
+        BoxTextFieldSuccess()
     }
 }

@@ -16,7 +16,6 @@
 
 package com.keygenqt.firebasestack.ui.guest.components
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,7 +30,6 @@ import com.keygenqt.firebasestack.base.LocalBaseViewModel
 import com.keygenqt.firebasestack.extension.AddFirebaseAnalyticsPage
 import com.keygenqt.firebasestack.ui.guest.compose.Login
 import com.keygenqt.firebasestack.ui.guest.compose.Registration
-import com.keygenqt.firebasestack.ui.guest.compose.Splash
 import com.keygenqt.firebasestack.ui.guest.compose.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -51,15 +49,10 @@ fun NavGraphGuest(navController: NavHostController) {
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenGuest.Welcome.route) {
             composable(NavScreenGuest.Welcome.route) {
-                val isReady: Boolean by localBaseViewModel.isReady.collectAsState()
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R && !isReady) {
-                    Splash()
-                } else {
-                    Welcome { event ->
-                        when (event) {
-                            is EventsWelcome.ToLogin -> actionsGuest.navigateToLogin.invoke()
-                            is EventsWelcome.ToRegistration -> actionsGuest.navigateToRegistration.invoke()
-                        }
+                Welcome { event ->
+                    when (event) {
+                        is EventsWelcome.ToLogin -> actionsGuest.navigateToLogin.invoke()
+                        is EventsWelcome.ToRegistration -> actionsGuest.navigateToRegistration.invoke()
                     }
                 }
             }

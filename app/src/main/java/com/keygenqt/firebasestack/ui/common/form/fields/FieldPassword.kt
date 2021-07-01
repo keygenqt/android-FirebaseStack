@@ -24,14 +24,14 @@ import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 @Composable
 fun FieldPassword(
     modifier: Modifier = Modifier,
-    loading: Boolean = false,
+    enabled: Boolean = false,
     state: FormFieldState = remember { PasswordState() },
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions = KeyboardActions()
 ) {
     var visibility: Boolean by remember { mutableStateOf(false) }
     TextField(
-        enabled = !loading,
+        enabled = enabled,
         value = state.text,
         onValueChange = { state.text = it },
         label = { Text(stringResource(id = R.string.form_password)) },

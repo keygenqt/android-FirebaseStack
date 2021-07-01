@@ -29,18 +29,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
 import com.keygenqt.firebasestack.extension.visible
 import com.keygenqt.firebasestack.models.ModelUser
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.user.components.EventsChatList
 
 
 @Composable
 fun ChatList(
     user: ModelUser? = ModelUser.mock(),
-    logout: () -> Unit = {},
+    onNavigationEvent: (EventsChatList) -> Unit = {},
 ) {
 
     var expanded by remember { mutableStateOf(false) }
@@ -56,7 +61,8 @@ fun ChatList(
                         } ?: run {
                             stringResource(id = R.string.chat_list_title)
                         },
-                        color = LocalContentColor.current
+                        color = LocalContentColor.current,
+                        fontSize = 18.sp
                     )
                 },
                 actions = {
@@ -73,7 +79,14 @@ fun ChatList(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false }
                             ) {
-                                DropdownMenuItem(onClick = logout) {
+
+                                DropdownMenuItem(onClick = { onNavigationEvent(EventsChatList.ToEditProfile) }) {
+                                    Text(Firebase.remoteConfig.getString("string_menu_EditProfile"))
+                                }
+
+                                Divider(thickness = 1.dp)
+
+                                DropdownMenuItem(onClick = { onNavigationEvent(EventsChatList.Logout) }) {
                                     Text("Logout")
                                 }
                             }

@@ -36,6 +36,7 @@
             <meta-data
                 android:name="com.keygenqt.firebasestack.initializer.TimberInitializer"
                 android:value="androidx.startup" />
+
         </provider>
 
     </application>

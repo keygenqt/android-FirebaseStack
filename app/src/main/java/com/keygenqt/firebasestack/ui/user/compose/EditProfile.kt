@@ -1,4 +1,20 @@
-package com.keygenqt.firebasestack.ui.guest.compose
+/*
+ * Copyright 2021 Vitaliy Zarubin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.keygenqt.firebasestack.ui.user.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,31 +41,33 @@ import androidx.compose.ui.unit.dp
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
 import com.keygenqt.firebasestack.extension.visible
+import com.keygenqt.firebasestack.models.ModelUser
 import com.keygenqt.firebasestack.ui.common.base.Loader
-import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldError
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldEmail
-import com.keygenqt.firebasestack.ui.common.form.fields.FieldPassword
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldSimpleEditText
-import com.keygenqt.firebasestack.ui.guest.components.EventsRegistration
-import com.keygenqt.firebasestack.ui.guest.components.FormStatesRegistration
+import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldError
+import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldSuccess
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.user.components.EventsEditProfile
+import com.keygenqt.firebasestack.ui.user.components.FormStatesEditProfile
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun Registration(
+fun EditProfile(
+    user: ModelUser? = ModelUser.mock(),
     loading: Boolean = false,
     commonError: String? = null,
-    onNavigationEvent: (EventsRegistration) -> Unit = {},
+    commonSuccess: Boolean = false,
+    onNavigationEvent: (EventsEditProfile) -> Unit = {},
 ) {
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
     val listState = rememberScrollState()
 
     val formFields = FormFieldsState().apply {
-        add(FormStatesRegistration.FieldFirstName, remember { FormStatesRegistration.FieldFirstName.state })
-        add(FormStatesRegistration.FieldLastName, remember { FormStatesRegistration.FieldLastName.state })
-        add(FormStatesRegistration.FieldEmail, remember { FormStatesRegistration.FieldEmail.state })
-        add(FormStatesRegistration.FieldPassword, remember { FormStatesRegistration.FieldPassword.state })
+        add(FormStatesEditProfile.FieldFirstName, remember { FormStatesEditProfile.FieldFirstName.state }, user?.first_name)
+        add(FormStatesEditProfile.FieldLastName, remember { FormStatesEditProfile.FieldLastName.state }, user?.last_name)
+        add(FormStatesEditProfile.FieldEmail, remember { FormStatesEditProfile.FieldEmail.state }, user?.email)
     }
 
     Scaffold(
@@ -57,12 +75,12 @@ fun Registration(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.registration_title),
+                        text = stringResource(id = R.string.edit_profile_title),
                         color = LocalContentColor.current
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onNavigationEvent(EventsRegistration.NavigateBack) }) {
+                    IconButton(onClick = { onNavigationEvent(EventsEditProfile.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.common_navigate_up)
@@ -94,33 +112,36 @@ fun Registration(
                         LaunchedEffect(commonError) { listState.animateScrollTo(0) }
                     }
 
-                    FormRegistration(
+                    // common success
+                    if (commonSuccess) {
+                        BoxTextFieldSuccess()
+                        Spacer(Modifier.size(padding))
+                    }
+
+                    FormEditProfile(
                         loading = loading,
                         formFields = formFields,
                         onNavigationEvent = onNavigationEvent,
                         softwareKeyboardController = softwareKeyboardController
                     )
-
                 }
             }
         },
     )
 }
 
-
 @ExperimentalComposeUiApi
 @Composable
-fun FormRegistration(
+fun FormEditProfile(
     loading: Boolean = false,
-    onNavigationEvent: (EventsRegistration) -> Unit = {},
+    onNavigationEvent: (EventsEditProfile) -> Unit = {},
     formFields: FormFieldsState = FormFieldsState(),
     softwareKeyboardController: SoftwareKeyboardController? = null,
     spacer: @Composable () -> Unit = { Spacer(modifier = Modifier.size(16.dp)) }
 ) {
 
+    val fnameRequester = remember { FocusRequester() }
     val lnameRequester = remember { FocusRequester() }
-    val emailRequester = remember { FocusRequester() }
-    val passwRequester = remember { FocusRequester() }
 
     // password login click submit
     val passwClick = {
@@ -130,11 +151,10 @@ fun FormRegistration(
         if (!formFields.hasErrors()) {
             // submit query
             onNavigationEvent(
-                EventsRegistration.Registration(
-                    first_name = formFields.get(FormStatesRegistration.FieldFirstName).text,
-                    last_name = formFields.get(FormStatesRegistration.FieldLastName).text,
-                    email = formFields.get(FormStatesRegistration.FieldEmail).text,
-                    password = formFields.get(FormStatesRegistration.FieldPassword).text,
+                EventsEditProfile.Update(
+                    first_name = formFields.get(FormStatesEditProfile.FieldFirstName).text,
+                    last_name = formFields.get(FormStatesEditProfile.FieldLastName).text,
+                    email = formFields.get(FormStatesEditProfile.FieldEmail).text,
                 )
             )
             // hide keyboard
@@ -143,7 +163,23 @@ fun FormRegistration(
     }
 
     Text(
-        text = stringResource(id = R.string.registration_subtitle_info),
+        text = stringResource(id = R.string.edit_profile_subtitle_required),
+        style = MaterialTheme.typography.subtitle2,
+    )
+
+    spacer()
+
+    FieldEmail(
+        enabled = false,
+        state = formFields.get(FormStatesEditProfile.FieldEmail),
+        imeAction = ImeAction.Next,
+        keyboardActions = KeyboardActions(onNext = { fnameRequester.requestFocus() })
+    )
+
+    spacer()
+
+    Text(
+        text = stringResource(id = R.string.edit_profile_subtitle_optional),
         style = MaterialTheme.typography.subtitle2,
     )
 
@@ -152,7 +188,7 @@ fun FormRegistration(
     FieldSimpleEditText(
         labelText = R.string.form_fname,
         enabled = !loading,
-        state = formFields.get(FormStatesRegistration.FieldFirstName),
+        state = formFields.get(FormStatesEditProfile.FieldFirstName),
         imeAction = ImeAction.Next,
         keyboardActions = KeyboardActions(onNext = { lnameRequester.requestFocus() })
     )
@@ -163,34 +199,7 @@ fun FormRegistration(
         modifier = Modifier.focusRequester(lnameRequester),
         labelText = R.string.form_lname,
         enabled = !loading,
-        state = formFields.get(FormStatesRegistration.FieldLastName),
-        imeAction = ImeAction.Next,
-        keyboardActions = KeyboardActions(onNext = { emailRequester.requestFocus() })
-    )
-
-    spacer()
-
-    Text(
-        text = stringResource(id = R.string.registration_subtitle_credentials),
-        style = MaterialTheme.typography.subtitle2,
-    )
-
-    spacer()
-
-    FieldEmail(
-        modifier = Modifier.focusRequester(emailRequester),
-        enabled = !loading,
-        state = formFields.get(FormStatesRegistration.FieldEmail),
-        imeAction = ImeAction.Next,
-        keyboardActions = KeyboardActions(onNext = { passwRequester.requestFocus() })
-    )
-
-    spacer()
-
-    FieldPassword(
-        modifier = Modifier.focusRequester(passwRequester),
-        enabled = !loading,
-        state = formFields.get(FormStatesRegistration.FieldPassword),
+        state = formFields.get(FormStatesEditProfile.FieldLastName),
         imeAction = ImeAction.Done,
         keyboardActions = KeyboardActions(onDone = { passwClick.invoke() })
     )
@@ -214,17 +223,17 @@ fun FormRegistration(
 @ExperimentalComposeUiApi
 @Preview
 @Composable
-fun RegistrationPreviewLight() {
+fun SettingsEditProfile_PreviewLight() {
     FirebaseStackTheme(darkTheme = false) {
-        Registration()
+        EditProfile()
     }
 }
 
 @ExperimentalComposeUiApi
 @Preview
 @Composable
-fun RegistrationPreviewDark() {
+fun SettingsEditProfile_PreviewDark() {
     FirebaseStackTheme(darkTheme = true) {
-        Registration()
+        EditProfile()
     }
 }

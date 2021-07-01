@@ -22,7 +22,7 @@ import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
 import com.keygenqt.firebasestack.base.getErrorIsBlank
 
-class EmailState : FormFieldState(checkValid = ::checkValid)
+class EmailStateRequired : FormFieldState(checkValid = ::checkValid)
 
 private fun checkValid(target: String) = listOfNotNull(
     getErrorIsBlank(target),

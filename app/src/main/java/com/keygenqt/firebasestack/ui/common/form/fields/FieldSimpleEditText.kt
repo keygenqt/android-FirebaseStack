@@ -25,7 +25,7 @@ import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 fun FieldSimpleEditText(
     modifier: Modifier = Modifier,
     labelText: Int = R.string.form_edit_text,
-    loading: Boolean = false,
+    enabled: Boolean = false,
     state: FormFieldState = remember { StateSimpleEditText() },
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -33,7 +33,7 @@ fun FieldSimpleEditText(
     TextField(
         maxLines = 1,
         singleLine = true,
-        enabled = !loading,
+        enabled = enabled,
         value = state.text,
         onValueChange = { state.text = it },
         label = { Text(stringResource(id = labelText)) },

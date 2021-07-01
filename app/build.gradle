@@ -164,7 +164,7 @@ dependencies {
 dependencies {
 	// Declare the dependency for the Performance Monitoring library
 	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-perf'
+	implementation 'com.google.firebase:firebase-perf-ktx'
 }
 
 // Analytics
@@ -182,7 +182,7 @@ dependencies {
 dependencies {
 	// Declare the dependencies for the Remote Config and Analytics libraries
 	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-config'
+	implementation 'com.google.firebase:firebase-config-ktx'
 }
 
 // Cloud Messaging (FCM)

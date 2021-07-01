@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -32,12 +33,16 @@ import com.keygenqt.firebasestack.extension.AddFirebaseAnalyticsPage
 import com.keygenqt.firebasestack.models.ModelUser
 import com.keygenqt.firebasestack.ui.user.compose.ChatList
 import com.keygenqt.firebasestack.ui.user.compose.ChatView
+import com.keygenqt.firebasestack.ui.user.compose.EditProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun NavGraphUser(navController: NavHostController) {
+
     val localBaseViewModel = LocalBaseViewModel.current
+
     val actionsUser = remember(navController) {
         ActionsUser(navController)
     }
@@ -47,11 +52,29 @@ fun NavGraphUser(navController: NavHostController) {
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenUser.ChatList.route) {
             composable(NavScreenUser.ChatList.route) {
-
                 val viewModel: ViewModelUser = hiltViewModel()
                 val user: ModelUser? by viewModel.user.collectAsState()
+                ChatList(user) { event ->
+                    when (event) {
+                        is EventsChatList.ToEditProfile -> actionsUser.navigateToEditProfile.invoke()
+                        is EventsChatList.Logout -> localBaseViewModel.logout()
+                    }
+                }
+            }
+            composable(NavScreenUser.EditProfile.route) {
 
-                ChatList(user) { localBaseViewModel.logout() }
+                val viewModel: ViewModelUser = hiltViewModel()
+                val commonError: String? by viewModel.commonError.collectAsState()
+                val commonSuccess: Boolean by viewModel.commonSuccess.collectAsState()
+                val loading: Boolean by viewModel.loading.collectAsState()
+                val user: ModelUser? by viewModel.user.collectAsState()
+
+                EditProfile(user, loading, commonError, commonSuccess) { event ->
+                    when (event) {
+                        is EventsEditProfile.Update -> viewModel.updateProfile(event.email, event.first_name, event.last_name)
+                        is EventsEditProfile.NavigateBack -> actionsUser.upPress.invoke()
+                    }
+                }
             }
             composable(
                 route = NavScreenUser.ChatView.routeWithArgument,

@@ -15,14 +15,13 @@ The demo application making the most of Firebase
 * :heavy_check_mark: [Firebase Realtime Database](https://firebase.google.com/docs/database)
 * :hourglass: [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
 * :heavy_check_mark: [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)
-* :hourglass: [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
+* :heavy_check_mark: [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
 * :heavy_check_mark: [Google Analytics](https://firebase.google.com/docs/analytics)
-* :hourglass: [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
+* :heavy_check_mark: [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
 * :hourglass: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
 * :hourglass: [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
 * :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
 * :heavy_check_mark: [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
-* :hourglass: [Firebase Test Lab](https://firebase.google.com/docs/test-lab)
 * :hourglass: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 
 ### Preview

@@ -17,22 +17,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
 import com.keygenqt.firebasestack.ui.common.form.TextFieldError
-import com.keygenqt.firebasestack.ui.common.form.states.EmailState
+import com.keygenqt.firebasestack.ui.common.form.states.EmailStateRequired
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 
 @ExperimentalComposeUiApi
 @Composable
 fun FieldEmail(
     modifier: Modifier = Modifier,
-    loading: Boolean = false,
-    state: FormFieldState = remember { EmailState() },
+    enabled: Boolean = false,
+    state: FormFieldState = remember { EmailStateRequired() },
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions = KeyboardActions(),
 ) {
     TextField(
         maxLines = 1,
         singleLine = true,
-        enabled = !loading,
+        enabled = enabled,
         value = state.text,
         onValueChange = { state.text = it },
         label = { Text(stringResource(id = R.string.form_email)) },

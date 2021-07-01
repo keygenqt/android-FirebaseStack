@@ -19,6 +19,11 @@
     <string name="registration_subtitle_info">Info</string>
     <string name="registration_subtitle_credentials">Credentials</string>
 
+    <!-- Edit Profile-->
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="edit_profile_subtitle_required">Required</string>
+    <string name="edit_profile_subtitle_optional">Optional</string>
+
     <!-- Chat List-->
     <string name="chat_list_title_name">Chat List (%s)</string>
     <string name="chat_list_title">Chat List</string>
