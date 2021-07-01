@@ -76,7 +76,7 @@ fun Welcome(
                     painter = painterResource(R.drawable.ic_launcher),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(160.dp)
+                        .width(200.dp)
                         .clip(CircleShape)
                         .constrainAs(image) {
                             top.linkTo(parent.top)
