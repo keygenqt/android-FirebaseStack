@@ -27,7 +27,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
+import androidx.navigation.navDeepLink
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.keygenqt.firebasestack.base.FirebaseMessaging
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
 import com.keygenqt.firebasestack.extension.AddFirebaseAnalyticsPage
 import com.keygenqt.firebasestack.models.ModelUser
@@ -51,7 +53,10 @@ fun NavGraphUser(navController: NavHostController) {
 
     ProvideWindowInsets {
         NavHost(navController = navController, startDestination = NavScreenUser.ChatList.route) {
-            composable(NavScreenUser.ChatList.route) {
+            composable(
+                route = NavScreenUser.ChatList.route,
+                deepLinks = listOf(navDeepLink { uriPattern = "${FirebaseMessaging.DEEP_LINK_URI}/${NavScreenUser.ChatList.route}" })
+            ) {
                 val viewModel: ViewModelUser = hiltViewModel()
                 val user: ModelUser? by viewModel.user.collectAsState()
                 ChatList(user) { event ->
@@ -61,7 +66,10 @@ fun NavGraphUser(navController: NavHostController) {
                     }
                 }
             }
-            composable(NavScreenUser.EditProfile.route) {
+            composable(
+                route = NavScreenUser.EditProfile.route,
+                deepLinks = listOf(navDeepLink { uriPattern = "${FirebaseMessaging.DEEP_LINK_URI}/${NavScreenUser.EditProfile.route}" })
+            ) {
 
                 val viewModel: ViewModelUser = hiltViewModel()
                 val commonError: String? by viewModel.commonError.collectAsState()

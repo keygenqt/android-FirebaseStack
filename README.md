@@ -11,18 +11,19 @@ The demo application making the most of Firebase
 * [Android 12](https://developer.android.com/about/versions/12?authuser=1)
 
 ### Firebase Stack
+* :heavy_check_mark: [Google Analytics](https://firebase.google.com/docs/analytics)
 * :heavy_check_mark: [Firebase Authentication](https://firebase.google.com/docs/auth)
 * :heavy_check_mark: [Firebase Realtime Database](https://firebase.google.com/docs/database)
-* :hourglass: [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
 * :heavy_check_mark: [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics)
 * :heavy_check_mark: [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon)
-* :heavy_check_mark: [Google Analytics](https://firebase.google.com/docs/analytics)
 * :heavy_check_mark: [Firebase Remote Config](https://firebase.google.com/docs/remote-config)
-* :hourglass: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
-* :hourglass: [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
-* :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
+* :heavy_check_mark: [Firebase In-App Messaging](https://firebase.google.com/docs/in-app-messaging)
 * :heavy_check_mark: [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
-* :hourglass: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
+* :heavy_check_mark: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
+* :heavy_check_mark: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
+* :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
+* :hourglass: [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
+
 
 ### Preview
 <p align="center">

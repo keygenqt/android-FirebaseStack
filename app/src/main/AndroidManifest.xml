@@ -24,6 +24,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:scheme="https" android:host="keygenqt.com" />
             </intent-filter>
         </activity>
 
@@ -34,10 +35,26 @@
             tools:node="merge">
 
             <meta-data
+                android:name="com.keygenqt.firebasestack.initializer.MessagingInitializer"
+                android:value="androidx.startup" />
+
+            <meta-data
                 android:name="com.keygenqt.firebasestack.initializer.TimberInitializer"
                 android:value="androidx.startup" />
 
+            <meta-data
+                android:name="com.keygenqt.firebasestack.initializer.CrashlyticsInitializer"
+                android:value="androidx.startup" />
+
         </provider>
+
+        <service
+            android:name=".base.FirebaseMessaging"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
     </application>
 
