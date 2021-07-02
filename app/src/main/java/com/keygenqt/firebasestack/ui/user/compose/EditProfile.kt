@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 package com.keygenqt.firebasestack.ui.user.compose
 
 import androidx.compose.foundation.background
@@ -212,7 +212,7 @@ fun FormEditProfile(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.welcome_btn_login),
+            text = stringResource(id = R.string.common_form_button),
             color = Color.White,
         )
     }

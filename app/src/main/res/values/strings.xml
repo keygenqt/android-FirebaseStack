@@ -42,6 +42,7 @@
     <string name="is_required">Is required</string>
 
     <!-- Common-->
+    <string name="common_form_button">Submit</string>
     <string name="common_navigate_up">Navigate up</string>
     <string name="common_exit">Please click back again to exit</string>
 </resources>

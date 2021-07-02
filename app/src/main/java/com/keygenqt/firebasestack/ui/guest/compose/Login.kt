@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 package com.keygenqt.firebasestack.ui.guest.compose
 
 import android.app.Activity
@@ -210,7 +210,7 @@ fun FormPassword(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.welcome_btn_login),
+            text = stringResource(id = R.string.common_form_button),
             color = Color.White,
         )
     }
