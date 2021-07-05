@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.user.components
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,6 +39,7 @@ import com.keygenqt.firebasestack.ui.user.compose.ChatView
 import com.keygenqt.firebasestack.ui.user.compose.EditProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
@@ -62,6 +64,7 @@ fun NavGraphUser(navController: NavHostController) {
                 ChatList(user) { event ->
                     when (event) {
                         is EventsChatList.ToEditProfile -> actionsUser.navigateToEditProfile.invoke()
+                        is EventsChatList.ToChatView -> actionsUser.navigateToChatView.invoke(event.name)
                         is EventsChatList.Logout -> localBaseViewModel.logout()
                     }
                 }
@@ -86,11 +89,11 @@ fun NavGraphUser(navController: NavHostController) {
             }
             composable(
                 route = NavScreenUser.ChatView.routeWithArgument,
-                arguments = listOf(navArgument(NavScreenUser.ChatView.argument0) { type = NavType.LongType })
+                arguments = listOf(navArgument(NavScreenUser.ChatView.argument0) { type = NavType.StringType })
             ) { backStackEntry ->
                 backStackEntry.arguments?.let {
                     ChatView(
-                        it.getLong(NavScreenUser.ChatView.argument0),
+                        it.getString(NavScreenUser.ChatView.argument0) ?: "",
                         upPress = actionsUser.upPress
                     )
                 }

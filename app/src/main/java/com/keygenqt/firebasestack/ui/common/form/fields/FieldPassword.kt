@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.common.form.fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -40,7 +41,7 @@ import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 @Composable
 fun FieldPassword(
     modifier: Modifier = Modifier,
-    enabled: Boolean = false,
+    enabled: Boolean = true,
     state: FormFieldState = remember { PasswordState() },
     imeAction: ImeAction = ImeAction.Next,
     keyboardActions: KeyboardActions = KeyboardActions()
@@ -60,7 +61,13 @@ fun FieldPassword(
                 )
             }
         },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                if (focusState.isFocused) {
+                    state.positionToEnd()
+                }
+            },
         textStyle = MaterialTheme.typography.body2,
         isError = state.hasErrors,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = imeAction),

@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.user.components
 
 sealed class EventsChatList {
     object ToEditProfile : EventsChatList()
     object Logout : EventsChatList()
+    class ToChatView(val name: String) : EventsChatList()
 }

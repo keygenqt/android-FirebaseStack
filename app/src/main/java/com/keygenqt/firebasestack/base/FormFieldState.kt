@@ -13,34 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.base
 
 import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 
 open class FormFieldState(
     text: String = "",
     private val checkValid: (String) -> List<(Context) -> String> = { emptyList() }
 ) {
 
-    private var _text: String by mutableStateOf(text)
+    private var _text: TextFieldValue by mutableStateOf(TextFieldValue(text = text))
     private var _errors: List<(Context) -> String> by mutableStateOf(listOf())
 
-    var text: String
+    var text: TextFieldValue
         get() = _text
         set(value) {
             _text = value
-            _errors = checkValid(value)
+            _errors = checkValid(value.text)
         }
 
     val hasErrors: Boolean
         get() = _errors.isNotEmpty()
 
     fun validate() {
-        _errors = checkValid(_text)
+        _errors = checkValid(_text.text)
     }
 
     fun clearError() {
@@ -49,5 +51,15 @@ open class FormFieldState(
 
     fun getError(context: Context): String? {
         return _errors.firstOrNull()?.invoke(context)
+    }
+
+    fun getValue(): String {
+        return _text.text
+    }
+
+    fun positionToEnd() {
+        _text = _text.copy(
+            selection = TextRange(_text.text.length, _text.text.length)
+        )
     }
 }

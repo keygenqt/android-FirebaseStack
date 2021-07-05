@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.user.compose
 
 import androidx.compose.foundation.background
@@ -143,8 +143,8 @@ fun FormEditProfile(
     val fnameRequester = remember { FocusRequester() }
     val lnameRequester = remember { FocusRequester() }
 
-    // password login click submit
-    val passwClick = {
+    // click submit
+    val submitClick = {
         // validate before send
         formFields.validate()
         // check has errors
@@ -152,9 +152,9 @@ fun FormEditProfile(
             // submit query
             onNavigationEvent(
                 EventsEditProfile.Update(
-                    first_name = formFields.get(FormStatesEditProfile.FieldFirstName).text,
-                    last_name = formFields.get(FormStatesEditProfile.FieldLastName).text,
-                    email = formFields.get(FormStatesEditProfile.FieldEmail).text,
+                    first_name = formFields.get(FormStatesEditProfile.FieldFirstName).getValue(),
+                    last_name = formFields.get(FormStatesEditProfile.FieldLastName).getValue(),
+                    email = formFields.get(FormStatesEditProfile.FieldEmail).getValue(),
                 )
             )
             // hide keyboard
@@ -201,14 +201,14 @@ fun FormEditProfile(
         enabled = !loading,
         state = formFields.get(FormStatesEditProfile.FieldLastName),
         imeAction = ImeAction.Done,
-        keyboardActions = KeyboardActions(onDone = { passwClick.invoke() })
+        keyboardActions = KeyboardActions(onDone = { submitClick.invoke() })
     )
 
     spacer()
 
     Button(
         enabled = !loading,
-        onClick = { passwClick.invoke() },
+        onClick = { submitClick.invoke() },
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(

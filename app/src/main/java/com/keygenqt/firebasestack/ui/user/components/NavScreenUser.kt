@@ -20,7 +20,7 @@ sealed class NavScreenUser(val route: String) {
     object ChatList : NavScreenUser("ChatList")
     object EditProfile : NavScreenUser("EditProfile")
     object ChatView : NavScreenUser("ChatView") {
-        const val routeWithArgument: String = "ChatView/{chatId}"
-        const val argument0: String = "chatId"
+        const val routeWithArgument: String = "ChatView/{chatName}"
+        const val argument0: String = "chatName"
     }
 }

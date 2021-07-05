@@ -138,8 +138,8 @@ fun FormRegistration(
     val emailRequester = remember { FocusRequester() }
     val passwRequester = remember { FocusRequester() }
 
-    // password login click submit
-    val passwClick = {
+    // click submit
+    val submitClick = {
         // validate before send
         formFields.validate()
         // check has errors
@@ -147,10 +147,10 @@ fun FormRegistration(
             // submit query
             onNavigationEvent(
                 EventsRegistration.Registration(
-                    first_name = formFields.get(FormStatesRegistration.FieldFirstName).text,
-                    last_name = formFields.get(FormStatesRegistration.FieldLastName).text,
-                    email = formFields.get(FormStatesRegistration.FieldEmail).text,
-                    password = formFields.get(FormStatesRegistration.FieldPassword).text,
+                    first_name = formFields.get(FormStatesRegistration.FieldFirstName).getValue(),
+                    last_name = formFields.get(FormStatesRegistration.FieldLastName).getValue(),
+                    email = formFields.get(FormStatesRegistration.FieldEmail).getValue(),
+                    password = formFields.get(FormStatesRegistration.FieldPassword).getValue(),
                 )
             )
             // hide keyboard
@@ -208,14 +208,14 @@ fun FormRegistration(
         enabled = !loading,
         state = formFields.get(FormStatesRegistration.FieldPassword),
         imeAction = ImeAction.Done,
-        keyboardActions = KeyboardActions(onDone = { passwClick.invoke() })
+        keyboardActions = KeyboardActions(onDone = { submitClick.invoke() })
     )
 
     spacer()
 
     Button(
         enabled = !loading,
-        onClick = { passwClick.invoke() },
+        onClick = { submitClick.invoke() },
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(

@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.base
+package com.keygenqt.firebasestack.ui.user.components
 
-import androidx.navigation.NavHostController
-import com.keygenqt.firebasestack.ui.user.components.NavScreenUser
+import com.keygenqt.firebasestack.base.FormFieldState
+import com.keygenqt.firebasestack.base.FormStates
+import com.keygenqt.firebasestack.ui.common.form.states.StateChatName
 
-open class Actions(navController: NavHostController) {
-    val navigateToChatView: (String) -> Unit = { name: String ->
-        NavScreenUser.ChatView.apply {
-            navController.navigate(routeWithArgument.replace("{$argument0}", name))
-        }
-    }
-    val navigateToEditProfile: () -> Unit = {
-        navController.navigate(NavScreenUser.EditProfile.route)
-    }
-    val upPress: () -> Unit = {
-        navController.navigateUp()
-    }
+enum class FormStatesCreateChat(val state: FormFieldState) : FormStates {
+    FieldChatName(StateChatName()),
 }

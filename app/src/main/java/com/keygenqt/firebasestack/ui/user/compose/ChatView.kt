@@ -23,26 +23,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
-import com.keygenqt.firebasestack.ui.user.compose.ChatList
 
 @Composable
 fun ChatView(
-    id: Long,
-    upPress: () -> Unit
+    name: String = "",
+    upPress: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Chat View",
+                        text = stringResource(id = R.string.chat_view_title, name),
                         color = LocalContentColor.current
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = upPress) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.common_navigate_up)
+                        )
+                    }
                 }
             )
         },
@@ -66,7 +77,7 @@ fun ChatView(
 @Composable
 fun ChatViewPreviewLight() {
     FirebaseStackTheme(darkTheme = false) {
-        ChatList()
+        ChatView()
     }
 }
 
@@ -74,6 +85,6 @@ fun ChatViewPreviewLight() {
 @Composable
 fun ChatViewPreviewDark() {
     FirebaseStackTheme(darkTheme = true) {
-        ChatList()
+        ChatView()
     }
 }

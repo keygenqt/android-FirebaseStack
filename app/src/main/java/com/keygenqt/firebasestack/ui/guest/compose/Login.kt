@@ -167,8 +167,8 @@ fun FormPassword(
 
     val passwRequester = remember { FocusRequester() }
 
-    // password login click submit
-    val passwClick = {
+    // click submit
+    val submitClick = {
         // validate before send
         formFields.validate()
         // check has errors
@@ -176,8 +176,8 @@ fun FormPassword(
             // submit query
             onNavigationEvent(
                 EventsLogin.LoginPassword(
-                    email = formFields.get(FieldEmail).text,
-                    password = formFields.get(FieldPassword).text,
+                    email = formFields.get(FieldEmail).getValue(),
+                    password = formFields.get(FieldPassword).getValue(),
                 )
             )
             // hide keyboard
@@ -199,14 +199,14 @@ fun FormPassword(
         enabled = !loading,
         state = formFields.get(FieldPassword),
         imeAction = ImeAction.Done,
-        keyboardActions = KeyboardActions(onDone = { passwClick.invoke() })
+        keyboardActions = KeyboardActions(onDone = { submitClick.invoke() })
     )
 
     spacer()
 
     Button(
         enabled = !loading,
-        onClick = { passwClick.invoke() },
+        onClick = { submitClick.invoke() },
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(

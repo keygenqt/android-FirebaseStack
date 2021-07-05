@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.base
+
+import androidx.compose.ui.text.input.TextFieldValue
 
 
 class FormFieldsState {
@@ -23,7 +25,7 @@ class FormFieldsState {
 
     fun add(key: FormStates, state: FormFieldState, value: String? = null) {
         states[key] = state
-        value?.let { state.text = it }
+        value?.let { state.text = TextFieldValue(text = it) }
     }
 
     fun remove(key: FormStates) {

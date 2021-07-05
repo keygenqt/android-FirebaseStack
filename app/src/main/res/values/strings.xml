@@ -27,6 +27,10 @@
     <!-- Chat List-->
     <string name="chat_list_title_name">Chat List (%s)</string>
     <string name="chat_list_title">Chat List</string>
+    <string name="chat_create_chat_title">Create Chat</string>
+
+    <!-- Chat View-->
+    <string name="chat_view_title">Chat (%s)</string>
 
     <!-- Form-->
     <string name="form_edit_text">Edit Text</string>
@@ -34,6 +38,7 @@
     <string name="form_password">Password</string>
     <string name="form_fname">First Name</string>
     <string name="form_lname">Last Name</string>
+    <string name="form_name">Name</string>
 
     <!-- Errors-->
     <string name="error_field_min_length">Minimum length %s characters</string>
@@ -45,4 +50,6 @@
     <string name="common_form_button">Submit</string>
     <string name="common_navigate_up">Navigate up</string>
     <string name="common_exit">Please click back again to exit</string>
+    <string name="common_btn_confirm">Confirm</string>
+    <string name="common_btn_cancel">Cancel</string>
 </resources>

@@ -22,7 +22,6 @@ The demo application making the most of Firebase
 * :heavy_check_mark: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 * :heavy_check_mark: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
 * :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
-* :hourglass: [Cloud Storage for Firebase](https://firebase.google.com/docs/storage)
 
 
 ### Preview
