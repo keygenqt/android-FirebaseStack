@@ -56,7 +56,7 @@ import com.keygenqt.firebasestack.BuildConfig
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
 import com.keygenqt.firebasestack.extension.visible
-import com.keygenqt.firebasestack.ui.common.base.Loader
+import com.keygenqt.firebasestack.ui.common.other.Loader
 import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldError
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldEmail
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldPassword

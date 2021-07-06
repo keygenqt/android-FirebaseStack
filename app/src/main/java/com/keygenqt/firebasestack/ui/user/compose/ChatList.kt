@@ -16,11 +16,12 @@
 
 package com.keygenqt.firebasestack.ui.user.compose
 
+import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -31,34 +32,40 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
 import com.keygenqt.firebasestack.base.LocalBaseViewModel
-import com.keygenqt.firebasestack.extension.visible
-import com.keygenqt.firebasestack.models.ModelUser
+import com.keygenqt.firebasestack.data.models.ModelChat
+import com.keygenqt.firebasestack.data.models.ModelUser
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldSimpleEditText
-import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
+import com.keygenqt.firebasestack.ui.common.other.CommonList
 import com.keygenqt.firebasestack.ui.user.components.EventsChatList
 import com.keygenqt.firebasestack.ui.user.components.FormStatesCreateChat
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun ChatList(
+    chatIsExist: Boolean = false,
     user: ModelUser? = ModelUser.mock(),
+    models: LazyPagingItems<ModelChat>,
     onNavigationEvent: (EventsChatList) -> Unit = {},
 ) {
 
@@ -98,7 +105,6 @@ fun ChatList(
                                 expanded = expanded,
                                 onDismissRequest = { expanded = false }
                             ) {
-
                                 DropdownMenuItem(onClick = { onNavigationEvent(EventsChatList.ToEditProfile) }) {
                                     Text(Firebase.remoteConfig.getString("string_menu_EditProfile"))
                                 }
@@ -108,18 +114,17 @@ fun ChatList(
                                 DropdownMenuItem(onClick = { onNavigationEvent(EventsChatList.Logout) }) {
                                     Text("Logout")
                                 }
-
                             }
                         }
                     }
                 }
             )
         },
-        content = { innerPadding ->
-            val modifier = Modifier.padding(innerPadding)
+        content = {
             ConstraintLayout {
-                val (body, snackBarInfo, btn) = createRefs()
-                Row(
+                val (body, btn, snackBarInfo) = createRefs()
+
+                ConstraintLayout(
                     modifier = Modifier
                         .fillMaxSize()
                         .constrainAs(body) {
@@ -129,27 +134,22 @@ fun ChatList(
                             end.linkTo(parent.end)
                         }
                 ) {
-                    Column(
-                        modifier = modifier
-                            .verticalScroll(rememberScrollState())
-                            .padding(16.dp)
-                            .background(MaterialTheme.colors.background)
-                    ) {
-                        Text(text = "Will be list")
-                    }
-                }
-
-                Snackbar(
-                    modifier = Modifier
-                        .visible(isShowSnackBar)
-                        .padding(8.dp)
-                        .constrainAs(snackBarInfo) {
-                            bottom.linkTo(body.bottom)
+                    CommonList(
+                        modifier = Modifier.constrainAs(body) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-                        }
-                ) {
-                    Text(text = stringResource(id = R.string.common_exit))
+                        },
+                        models = models,
+                        state = rememberSwipeRefreshState(models.loadState.refresh is LoadState.Loading)
+                    ) { index, model ->
+                        ItemChat(
+                            index = index,
+                            model = model,
+                            onNavigationEvent = onNavigationEvent
+                        )
+                    }
                 }
 
                 FloatingActionButton(
@@ -165,21 +165,99 @@ fun ChatList(
                 ) {
                     Icon(Icons.Filled.Add, "Add")
                 }
+
+                if (isShowSnackBar) {
+                    Snackbar(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .constrainAs(snackBarInfo) {
+                                bottom.linkTo(body.bottom)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            }
+                    ) {
+                        Text(text = stringResource(id = R.string.common_exit))
+                    }
+                }
             }
         },
     )
 
     CreateNewChatDialog(
+        chatIsExist = chatIsExist,
         onNavigationEvent = onNavigationEvent,
         openDialog = showDialogCreate,
         nameRequester = nameRequester,
     )
 }
 
+@Composable
+fun ItemChat(
+    index: Int = 0,
+    model: ModelChat,
+    onNavigationEvent: (EventsChatList) -> Unit = {},
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
+            .clickable(
+                onClick = {
+                    onNavigationEvent(EventsChatList.ToChatView(model.name))
+                }
+            ),
+        elevation = 8.dp,
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .background(
+                    brush = listOf(
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                Color(0xFFBE5B02),
+                                Color(0xFFB8A81D),
+                                Color(0xffFFF9C4)
+                            )
+                        ),
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                Color(0xFF009E3F),
+                                Color(0xFF24A5AA),
+                                Color(0xffFFF9C4)
+                            )
+                        ),
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                Color(0xFF900ACA),
+                                Color(0xFFD33441),
+                                Color(0xffFFF9C4)
+                            )
+                        ),
+                    )[index % 3]
+                )
+        ) {
+            Column {
+                Text(
+                    text = model.name,
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 1,
+                    color = Color.White,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(top = 24.dp, bottom = 24.dp, start = 18.dp, end = 18.dp)
+                )
+            }
+        }
+    }
+}
+
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun CreateNewChatDialog(
+    chatIsExist: Boolean = false,
     onNavigationEvent: (EventsChatList) -> Unit = {},
     openDialog: MutableState<Boolean> = remember { mutableStateOf(false) },
     nameRequester: FocusRequester = remember { FocusRequester() },
@@ -198,12 +276,19 @@ fun CreateNewChatDialog(
             formFields.validate()
             // check has errors
             if (!formFields.hasErrors()) {
-                openDialog.value = false
-                onNavigationEvent(EventsChatList.ToChatView(formFields.get(FormStatesCreateChat.FieldChatName).getValue()))
+                onNavigationEvent(EventsChatList.CreateChat(formFields.get(FormStatesCreateChat.FieldChatName).getValue()))
+            }
+        }
+
+        if (chatIsExist) {
+            formFields.get(FormStatesCreateChat.FieldChatName).setError { context: Context ->
+                context.getString(R.string.is_exist)
             }
         }
 
         AlertDialog(
+            modifier = Modifier
+                .padding(16.dp),
             onDismissRequest = {
                 openDialog.value = false
             },
@@ -261,25 +346,5 @@ fun CreateNewChatDialog(
                 }
             }
         )
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@Preview
-@Composable
-fun ChatListPreviewLight() {
-    FirebaseStackTheme(darkTheme = false) {
-        ChatList()
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@Preview
-@Composable
-fun ChatListPreviewDark() {
-    FirebaseStackTheme(darkTheme = true) {
-        ChatList()
     }
 }

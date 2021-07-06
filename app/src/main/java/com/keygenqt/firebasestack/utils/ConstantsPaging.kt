@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+package com.keygenqt.firebasestack.utils
 
-package com.keygenqt.firebasestack.ui.user.components
-
-sealed class EventsChatList {
-    object ToEditProfile : EventsChatList()
-    object Logout : EventsChatList()
-    class CreateChat(val name: String) : EventsChatList()
-    class ToChatView(val name: String) : EventsChatList()
+object ConstantsPaging {
+    const val MAX_PAGE_SIZE = 100
+    const val PER_PAGE = 2
 }

@@ -41,11 +41,11 @@ import androidx.compose.ui.unit.dp
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
 import com.keygenqt.firebasestack.extension.visible
-import com.keygenqt.firebasestack.ui.common.base.Loader
 import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldError
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldEmail
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldPassword
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldSimpleEditText
+import com.keygenqt.firebasestack.ui.common.other.Loader
 import com.keygenqt.firebasestack.ui.guest.components.EventsRegistration
 import com.keygenqt.firebasestack.ui.guest.components.FormStatesRegistration
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme

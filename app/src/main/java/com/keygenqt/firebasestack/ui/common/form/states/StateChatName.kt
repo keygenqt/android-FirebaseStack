@@ -23,7 +23,7 @@ import com.keygenqt.firebasestack.base.FormFieldState
 import com.keygenqt.firebasestack.base.getErrorIsBlank
 import java.util.regex.Pattern
 
-private const val CHAT_NAME_VALIDATION_REGEX = """^[0-9_A-z]+$"""
+private const val CHAT_NAME_VALIDATION_REGEX = """^([^0-9])[\s_A-z0-9]+"""
 
 class StateChatName : FormFieldState(checkValid = ::checkValid)
 
@@ -35,8 +35,8 @@ private fun checkValid(target: String) = listOfNotNull(
 
 private fun getErrorIsLong(target: String) =
     when {
-        target.length > 10 -> { it: Context ->
-            it.getString(R.string.error_field_max_length, "10")
+        target.length > 20 -> { it: Context ->
+            it.getString(R.string.error_field_max_length, "20")
         }
         else -> null
     }

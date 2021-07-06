@@ -1,6 +1,5 @@
 Firebase Stack
 ===================
-*(underway)*
 
 The demo application making the most of Firebase
 
@@ -21,13 +20,12 @@ The demo application making the most of Firebase
 * :heavy_check_mark: [Firebase App Distribution](https://firebase.google.com/docs/app-distribution)
 * :heavy_check_mark: [Firebase A/B Testing](https://firebase.google.com/docs/ab-testing)
 * :heavy_check_mark: [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging)
-* :hourglass: [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
-
 
 ### Preview
 <p align="center">
-<img src="data/vokoscreen-2021-07-02_18-14-37.gif" width="44%"/>
-<img src="data/vokoscreen-2021-07-02_18-25-37.gif" width="44%"/>
+<img src="data/vokoscreen-2021-07-02_18-14-37.gif" width="33%"/>
+<img src="data/vokoscreen-2021-07-02_18-25-37.gif" width="33%"/>
+<img src="data/vokoscreen-2021-07-06_21-15-36.gif" width="33%"/>
 </p>
 
 # License

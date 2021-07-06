@@ -13,37 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.user.compose
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.keygenqt.firebasestack.R
+import com.keygenqt.firebasestack.data.models.ModelChat
+import com.keygenqt.firebasestack.data.models.ModelUser
+import com.keygenqt.firebasestack.ui.common.other.CommonLoading
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 
 @Composable
 fun ChatView(
-    name: String = "",
+    chat: ModelChat?,
+    user: ModelUser?,
     upPress: () -> Unit = {}
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.chat_view_title, name),
+                        text = chat?.name?.let { stringResource(id = R.string.chat_view_title_name, it) }
+                            ?: stringResource(id = R.string.chat_view_title),
                         color = LocalContentColor.current
                     )
                 },
@@ -57,16 +69,71 @@ fun ChatView(
                 }
             )
         },
-        content = { innerPadding ->
-            val modifier = Modifier.padding(innerPadding)
-            Row {
-                Column(
-                    modifier = modifier
-                        .verticalScroll(rememberScrollState())
+        content = {
+            ConstraintLayout {
+                val (body) = createRefs()
+
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxSize()
                         .padding(16.dp)
-                        .background(MaterialTheme.colors.background)
+                        .constrainAs(body) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
                 ) {
-                    Text(text = "Chat View")
+                    if (chat == null || user == null) {
+                        CommonLoading(visibility = true)
+                    } else {
+
+                        val (bodyView) = createRefs()
+
+                        Row(
+                            modifier = Modifier
+                                .constrainAs(bodyView) {
+                                    bottom.linkTo(parent.bottom)
+                                    top.linkTo(parent.top)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                }
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7f)
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.chat_view_creator),
+                                    modifier = Modifier
+                                )
+                                ClickableText(
+                                    style = TextStyle(textDecoration = TextDecoration.Underline),
+                                    text = buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = MaterialTheme.colors.primary,
+                                            )
+                                        ) {
+                                            append(user.email)
+                                        }
+                                    },
+                                    modifier = Modifier
+                                ) {
+                                    uriHandler.openUri("mailto:${user.email}")
+                                }
+                                Text(
+                                    text = stringResource(id = R.string.chat_view_text),
+                                    color = MaterialTheme.colors.secondary,
+                                    fontStyle = FontStyle.Italic,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier
+                                        .padding(top = 20.dp)
+                                )
+                            }
+                        }
+
+                    }
                 }
             }
         },
@@ -77,7 +144,7 @@ fun ChatView(
 @Composable
 fun ChatViewPreviewLight() {
     FirebaseStackTheme(darkTheme = false) {
-        ChatView()
+        ChatView(ModelChat.mock(), ModelUser.mock())
     }
 }
 
@@ -85,6 +152,6 @@ fun ChatViewPreviewLight() {
 @Composable
 fun ChatViewPreviewDark() {
     FirebaseStackTheme(darkTheme = true) {
-        ChatView()
+        ChatView(ModelChat.mock(), ModelUser.mock())
     }
 }

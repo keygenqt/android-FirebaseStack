@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.firebasestack.ui.common.base
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,16 +40,17 @@ class ViewModelMain @Inject constructor(
 ) : ViewModel() {
 
     private val _isReady: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isReady: StateFlow<Boolean> get() = _isReady
+    val isReady: StateFlow<Boolean> get() = _isReady.asStateFlow()
 
     private val _isLogin: MutableStateFlow<Boolean> = MutableStateFlow(firebaseAuth.currentUser != null)
-    val isLogin: StateFlow<Boolean> get() = _isLogin
+    val isLogin: StateFlow<Boolean> get() = _isLogin.asStateFlow()
 
     private val _showSnackBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val showSnackBar: StateFlow<Boolean> get() = _showSnackBar
+    val showSnackBar: StateFlow<Boolean> get() = _showSnackBar.asStateFlow()
 
     init {
-        Handler(Looper.getMainLooper()).postDelayed({
+        viewModelScope.launch {
+            delay(1) // For simulate long work
             remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _isReady.value = true
@@ -55,7 +58,7 @@ class ViewModelMain @Inject constructor(
                     throw RuntimeException("Fetch failed")
                 }
             }
-        }, 1) // For simulate long work for splash
+        }
     }
 
     fun startUser() {
@@ -77,9 +80,10 @@ class ViewModelMain @Inject constructor(
 
     fun toggleSnackBar() {
         _showSnackBar.tryEmit(true)
-        Handler(Looper.getMainLooper()).postDelayed({
+        viewModelScope.launch {
+            delay(1500) // For simulate long work
             _showSnackBar.tryEmit(false)
-        }, 1500)
+        }
     }
 
     fun analyticsCurrentRoute(navGraph: String, screenName: String) {

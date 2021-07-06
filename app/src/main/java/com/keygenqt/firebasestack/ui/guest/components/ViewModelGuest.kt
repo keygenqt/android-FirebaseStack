@@ -23,11 +23,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.FirebaseDatabase
-import com.keygenqt.firebasestack.models.ModelUser
+import com.keygenqt.firebasestack.base.DatabaseChild
+import com.keygenqt.firebasestack.data.models.ModelUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 
@@ -41,10 +43,10 @@ class ViewModelGuest @Inject constructor(
 ) : ViewModel() {
 
     private val _commonError: MutableStateFlow<String?> = MutableStateFlow(null)
-    val commonError: StateFlow<String?> get() = _commonError
+    val commonError: StateFlow<String?> get() = _commonError.asStateFlow()
 
     private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> get() = _loading
+    val loading: StateFlow<Boolean> get() = _loading.asStateFlow()
 
     fun registration(fname: String, lname: String, email: String, password: String, success: () -> Unit) {
         _commonError.value = null
@@ -55,7 +57,7 @@ class ViewModelGuest @Inject constructor(
                 analyticsLogin("Password")
                 // database
                 it.result.user?.let { user ->
-                    database.reference.child("users").child(user.uid).setValue(
+                    database.reference.child(DatabaseChild.USERS.name).child(user.uid).setValue(
                         ModelUser(
                             first_name = fname,
                             last_name = lname
@@ -111,7 +113,7 @@ class ViewModelGuest @Inject constructor(
                 analyticsLogin("Google")
                 // database
                 it.result.user?.let { user ->
-                    database.reference.child("users").child(user.uid).setValue(
+                    database.reference.child(DatabaseChild.USERS.name).child(user.uid).setValue(
                         ModelUser(
                             email = email,
                         )

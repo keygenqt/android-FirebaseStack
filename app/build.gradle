@@ -1,127 +1,124 @@
 plugins {
-	id 'dagger.hilt.android.plugin'
-	id 'com.android.application'
-	id 'kotlin-android'
-	id 'kotlin-kapt'
-	id 'com.diffplug.spotless' version '5.14.0'
-	id 'com.google.firebase.crashlytics'
-	id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.diffplug.spotless' version '5.14.0'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
 }
 
 // https://github.com/diffplug/spotless/tree/main/plugin-gradle#kotlin
 spotless {
-	groovy {
-		target "**/*.kt"
-		licenseHeaderFile "$rootDir/spotless.license"
-	}
-	groovyGradle {
-		target '*.gradle'
-		greclipse()
-	}
+    groovy {
+        target "**/*.kt"
+        licenseHeaderFile "$rootDir/spotless.license"
+    }
+    groovyGradle {
+        target '*.gradle'
+        greclipse()
+    }
 }
 
 android {
-	compileSdk build_versions.compileSdk
-	buildToolsVersion sdk_versions.buildToolsVersion
+    compileSdk build_versions.compileSdk
+    buildToolsVersion sdk_versions.buildToolsVersion
 
-	defaultConfig {
+    defaultConfig {
 
-		// secret ~/.gradle/gradle.properties
-		buildConfigField "String", "GOOGLE_CLIENT_ID", "$GOOGLE_CLIENT_ID"
+        // secret ~/.gradle/gradle.properties
+        buildConfigField "String", "GOOGLE_CLIENT_ID", "$GOOGLE_CLIENT_ID"
 
-		applicationId "com.keygenqt.firebasestack"
+        applicationId "com.keygenqt.firebasestack"
 
-		targetSdk build_versions.targetSdk
-		minSdk build_versions.minSdk
-		versionCode build_versions.versionCode
-		versionName build_versions.versionName
+        targetSdk build_versions.targetSdk
+        minSdk build_versions.minSdk
+        versionCode build_versions.versionCode
+        versionName build_versions.versionName
 
-		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-		vectorDrawables {
-			useSupportLibrary true
-		}
-	}
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
 
-	// android 12
-	compileSdkVersion "android-S"
+    // android 12
+    compileSdkVersion "android-S"
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
-	}
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
-	kotlinOptions {
-		jvmTarget = '1.8'
-		useIR = true
-	}
-	buildFeatures {
-		compose true
-	}
-	composeOptions {
-		kotlinCompilerExtensionVersion versions.compose_version
-		kotlinCompilerVersion '1.5.10'
-	}
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.compose_version
+        kotlinCompilerVersion '1.5.10'
+    }
 }
 
-dependencies {
-	testImplementation "junit:junit:$versions.junit"
-	androidTestImplementation "androidx.test.ext:junit:$versions.ext_junit"
-	androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso_core"
-	androidTestImplementation "androidx.compose.ui:ui-test-junit4:$versions.compose_version"
-}
+// Sample tests for Jetpack Compose you can find here
+// https://github.com/keygenqt/android-GitHubViewer
 
 dependencies {
-	// base
-	implementation "androidx.core:core-ktx:$versions.core_ktx"
-	implementation "com.google.android.material:material:$versions.material"
-	// other
-	implementation "com.jakewharton.timber:timber:$versions.timber"
-	implementation "androidx.startup:startup-runtime:$versions.startup_runtime"
-	implementation "androidx.security:security-crypto:$versions.security_crypto"
-	// hilt
-	kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler"
-	implementation "com.google.dagger:hilt-android:$versions.hilt_dagger"
-	kapt "com.google.dagger:hilt-compiler:$versions.hilt_dagger"
-	implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_navigation_compose"
-	// accompanist
-	implementation "com.google.accompanist:accompanist-insets:$versions.accompanist"
-	implementation "com.google.accompanist:accompanist-glide:$versions.accompanist"
-	// compose
-	implementation "androidx.constraintlayout:constraintlayout-compose:$versions.constraint"
-	implementation "androidx.compose.material:material-icons-extended:$versions.compose_version"
-	implementation "androidx.compose.ui:ui:$versions.compose_version"
-	implementation "androidx.compose.material:material:$versions.compose_version"
-	implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
-	// lottie
-	implementation "com.airbnb.android:lottie-compose:1.0.0-beta07-1"
-
+    // base
+    implementation "androidx.core:core-ktx:$versions.core_ktx"
+    implementation "com.google.android.material:material:$versions.material"
+    // hilt
+    kapt "androidx.hilt:hilt-compiler:$versions.hilt_compiler"
+    implementation "com.google.dagger:hilt-android:$versions.hilt_dagger"
+    kapt "com.google.dagger:hilt-compiler:$versions.hilt_dagger"
+    implementation "androidx.hilt:hilt-navigation-compose:$versions.hilt_navigation_compose"
+    // accompanist
+    implementation "com.google.accompanist:accompanist-insets:$versions.accompanist"
+    implementation "com.google.accompanist:accompanist-glide:$versions.accompanist"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$versions.accompanist"
+    // compose
+    implementation "androidx.constraintlayout:constraintlayout-compose:$versions.constraint"
+    implementation "androidx.compose.material:material-icons-extended:$versions.compose_version"
+    implementation "androidx.compose.ui:ui:$versions.compose_version"
+    implementation "androidx.compose.material:material:$versions.compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$versions.compose_version"
+    // paging
+    implementation "androidx.paging:paging-compose:$versions.paging"
+    // other
+    implementation "com.jakewharton.timber:timber:$versions.timber"
+    implementation "androidx.startup:startup-runtime:$versions.startup_runtime"
+    implementation "androidx.security:security-crypto:$versions.security_crypto"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$versions.coroutines_play_services"
 }
 
 // https://firebase.google.com/docs/android/learn-more#bom
 dependencies {
-	// Import the BoM for the Firebase platform
-	implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
 }
 
 // Authentication
 // https://firebase.google.com/docs/auth/android/firebaseui
 // 10k/month
 dependencies {
-	// Declare the dependency for the Firebase Authentication library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-auth'
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
 
-	// Declare the dependency for the Firebase Authentication library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-auth-ktx'
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
-	// Also declare the dependency for the Google Play services library and specify its version
-	implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }
 
 // Realtime Database
@@ -130,9 +127,9 @@ dependencies {
 // GB stored - 1 GB
 // GB downloaded - 10 GB/month
 dependencies {
-	// Declare the dependency for the Realtime Database library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-database-ktx'
+    // Declare the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-database-ktx'
 }
 
 // Cloud Storage
@@ -142,70 +139,70 @@ dependencies {
 // Upload operations - 20K/day
 // Download operations - 50K/day
 dependencies {
-	// Declare the dependency for the Cloud Storage library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-storage'
+    // Declare the dependency for the Cloud Storage library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-storage'
 }
 
 // Crashlytics
 // https://firebase.google.com/docs/crashlytics/get-started?platform=android
 // Free
 dependencies {
-	// Declare the dependencies for the Crashlytics and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-crashlytics'
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics'
 }
 
 // Performance Monitoring
 // https://firebase.google.com/docs/perf-mon/get-started-android
 // Free
 dependencies {
-	// Declare the dependency for the Performance Monitoring library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-perf-ktx'
+    // Declare the dependency for the Performance Monitoring library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-perf-ktx'
 }
 
 // Analytics
 // https://firebase.google.com/docs/analytics/get-started?platform=android
 // Free
 dependencies {
-	// Declare the dependency for the Analytics library
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-analytics'
+    // Declare the dependency for the Analytics library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 // Remote Config
 // https://firebase.google.com/docs/remote-config/get-started?platform=android
 // Free
 dependencies {
-	// Declare the dependencies for the Remote Config and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-config-ktx'
+    // Declare the dependencies for the Remote Config and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-config-ktx'
 }
 
 // Cloud Messaging (FCM)
 // https://firebase.google.com/docs/cloud-messaging/android/client
 // Free
 dependencies {
-	// Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-messaging'
+    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-messaging'
 }
 
 // In-App Messaging
 // https://firebase.google.com/docs/in-app-messaging/get-started?platform=android
 // Free
 dependencies {
-	// Declare the dependencies for the In-App Messaging and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-inappmessaging-display'
+    // Declare the dependencies for the In-App Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
 }
 
 // Dynamic Links
 // https://firebase.google.com/docs/dynamic-links/android/create#set-up-firebase-and-the-dynamic-links-sdk
 // Free
 dependencies {
-	// Declare the dependencies for the Dynamic Links and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-	implementation 'com.google.firebase:firebase-dynamic-links'
+    // Declare the dependencies for the Dynamic Links and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-dynamic-links'
 }

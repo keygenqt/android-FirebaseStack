@@ -30,7 +30,10 @@
     <string name="chat_create_chat_title">Create Chat</string>
 
     <!-- Chat View-->
-    <string name="chat_view_title">Chat (%s)</string>
+    <string name="chat_view_title_name">Chat (%s)</string>
+    <string name="chat_view_title">Chat …</string>
+    <string name="chat_view_creator">The chat was created by the user:</string>
+    <string name="chat_view_text">If you want to communicate in this application, you will have to write the functionality or use the mail in the old fashioned way. ;)</string>
 
     <!-- Form-->
     <string name="form_edit_text">Edit Text</string>
@@ -45,6 +48,7 @@
     <string name="error_field_max_length">Maximum length %s characters</string>
     <string name="is_incorrect">Is incorrect</string>
     <string name="is_required">Is required</string>
+    <string name="is_exist">Is exist</string>
 
     <!-- Common-->
     <string name="common_form_button">Submit</string>

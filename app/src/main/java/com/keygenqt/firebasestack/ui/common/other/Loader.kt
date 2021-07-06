@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package com.keygenqt.firebasestack.ui.common.base
 
-import androidx.compose.foundation.layout.fillMaxHeight
+package com.keygenqt.firebasestack.ui.common.other
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieAnimationSpec
-import com.airbnb.lottie.compose.rememberLottieAnimationState
-import com.keygenqt.firebasestack.R
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun Loader(modifier: Modifier = Modifier) {
-    val animationSpec = remember { LottieAnimationSpec.RawRes(R.raw.loading) }
-    val animationState = rememberLottieAnimationState(autoPlay = true, repeatCount = 99)
-    LottieAnimation(
-        spec = animationSpec,
-        animationState = animationState,
-        modifier = modifier.fillMaxHeight()
-    )
+    Row {
+        Column(
+            modifier = modifier
+                .fillMaxHeight()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(
+                strokeWidth = 2.dp,
+                color = Color.White,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        }
+    }
 }

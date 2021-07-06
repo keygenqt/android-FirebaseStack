@@ -13,29 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package com.keygenqt.firebasestack.models
+
+package com.keygenqt.firebasestack.data.models
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
 data class ModelUser(
-    var email: String = "",
-    var first_name: String = "",
-    var last_name: String = ""
+    val email: String = "",
+    val first_name: String = "",
+    val last_name: String = ""
 ) {
+
     val nickname: String?
         get() = (if ("$first_name $last_name".isBlank()) email else "$first_name $last_name".trim()).let {
             if (it.isBlank()) null else it
         }
-
-    operator fun plus(modelUser: ModelUser): ModelUser {
-        return ModelUser(
-            email = if (this.email.isBlank()) modelUser.email else this.email,
-            first_name = if (this.first_name.isBlank()) modelUser.first_name else this.first_name,
-            last_name = if (this.last_name.isBlank()) modelUser.last_name else this.last_name
-        )
-    }
 
     companion object {
         fun mock() = ModelUser(

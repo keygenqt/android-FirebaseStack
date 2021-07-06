@@ -40,13 +40,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldsState
+import com.keygenqt.firebasestack.data.models.ModelUser
 import com.keygenqt.firebasestack.extension.visible
-import com.keygenqt.firebasestack.models.ModelUser
-import com.keygenqt.firebasestack.ui.common.base.Loader
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldEmail
 import com.keygenqt.firebasestack.ui.common.form.fields.FieldSimpleEditText
 import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldError
 import com.keygenqt.firebasestack.ui.common.other.BoxTextFieldSuccess
+import com.keygenqt.firebasestack.ui.common.other.Loader
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 import com.keygenqt.firebasestack.ui.user.components.EventsEditProfile
 import com.keygenqt.firebasestack.ui.user.components.FormStatesEditProfile

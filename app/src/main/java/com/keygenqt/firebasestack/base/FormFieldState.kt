@@ -57,6 +57,10 @@ open class FormFieldState(
         return _text.text
     }
 
+    fun setError(error: (Context) -> String) {
+        _errors = listOf(error)
+    }
+
     fun positionToEnd() {
         _text = _text.copy(
             selection = TextRange(_text.text.length, _text.text.length)

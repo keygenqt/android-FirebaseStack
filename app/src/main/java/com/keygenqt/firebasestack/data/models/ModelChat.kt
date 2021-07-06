@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.keygenqt.firebasestack.ui.user.components
+package com.keygenqt.firebasestack.data.models
 
-sealed class EventsChatList {
-    object ToEditProfile : EventsChatList()
-    object Logout : EventsChatList()
-    class CreateChat(val name: String) : EventsChatList()
-    class ToChatView(val name: String) : EventsChatList()
+import androidx.compose.runtime.Immutable
+
+@Immutable
+data class ModelChat(
+    val userUid: String = "",
+    val name: String = "",
+) {
+    companion object {
+        fun mock() = ModelChat(
+            userUid = "1",
+            name = "My Chat Name",
+        )
+    }
 }
