@@ -25,7 +25,7 @@ The demo application making the most of Firebase
 <p align="center">
 <img src="data/vokoscreen-2021-07-02_18-14-37.gif" width="32%"/>
 <img src="data/vokoscreen-2021-07-02_18-25-37.gif" width="32%"/>
-<img src="data/vokoscreen-2021-07-06_21-15-36.gif" width="32%"/>
+<img src="data/vokoscreen-2021-07-06_21-15-36.gif" width="31%"/>
 </p>
 
 # License
