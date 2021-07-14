@@ -14,7 +14,7 @@ build_versions.versionName = "1.0.0"
 
 // base
 versions.kotlin = '1.5.10'
-versions.gradle = '7.1.0-alpha02'
+versions.gradle = '7.1.0-alpha03'
 
 // other
 versions.compose_version = '1.0.0-rc01'
