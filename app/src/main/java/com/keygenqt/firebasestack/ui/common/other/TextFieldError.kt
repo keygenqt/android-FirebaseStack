@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package com.keygenqt.firebasestack.ui.common.form
+package com.keygenqt.firebasestack.ui.common.other
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LocalTextStyle

@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.keygenqt.firebasestack.R
 import com.keygenqt.firebasestack.base.FormFieldState
-import com.keygenqt.firebasestack.ui.common.form.TextFieldError
+import com.keygenqt.firebasestack.ui.common.other.TextFieldError
 import com.keygenqt.firebasestack.ui.common.form.states.PasswordState
 import com.keygenqt.firebasestack.ui.theme.FirebaseStackTheme
 

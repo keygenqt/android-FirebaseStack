@@ -43,7 +43,7 @@ android {
 	}
 
 	// android 12
-	compileSdkVersion "android-S"
+	compileSdkVersion 31 // "android-S"
 
 	buildTypes {
 		release {

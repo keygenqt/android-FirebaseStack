@@ -1,6 +1,8 @@
 Firebase Stack
 ===================
 
+![picture](data/preview.png)
+
 The demo application making the most of Firebase
 
 ### Architecture
